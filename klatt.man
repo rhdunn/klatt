@@ -1,6 +1,6 @@
-.TH klatt 1 "January 1994" 
+.TH klatt 1 "April 1994" 
 .SH NAME
-klatt \-  Klatt cascade-parallel formant synthesizer
+klatt \-  Klatt cascade-parallel formant synthesizer (v3.03)
 .SH SYNTAX
 .B klatt
 [
@@ -18,7 +18,7 @@ klatt \-  Klatt cascade-parallel formant synthesizer
 .B \-c
 ][
 .B \-n
-.I number of formants in the parallel branch
+.I number of formants in the cascade branch
 ][
 .B \-s
 .I sample rate
@@ -291,7 +291,7 @@ Amplitude of aspiration 0-70 dB.
 .B \ kopen 	
 Open quotient of voicing waveform, range 0-60, usually 30.
 Will influence the gravelly or smooth quality of the voice.
-Only works with impulse and antural simulations. For the
+Only works with impulse and natural simulations. For the
 sampled glottal excitation waveform the open quotient is fixed.
 
 .TP
@@ -378,11 +378,32 @@ Amplitude of voicing for the parallel branch, 0-70 dB.
 .B \ gain  	
 Overall gain in dB range 0-80.
 
+.SH EXAMPLES
+
+Included with the distribution are two example parameter files. They may be
+synthesized using the command line:
+
+klatt -i example.par -o example.raw -f 5 -v 2 -s 16000 -r 1
+
+This produces raw 16bit signed integers. A package like sox can be
+used to convert to your favourite audio format. For example,
+conversion to the ulaw encoded format used by Sun Sparc SLC's is given
+below.
+
+sox -r 16000 -s -w example.raw -r 8000 -b -U example.au
+
+Beware of the byte ordering of your machine - if the above procedure
+produces distored rubbish, try using -r 2 instead of -r 1. This just
+reverses the byte ordering in the raw binary output file. It is also
+worth noting that the above example reduces the quality of the output,
+as the sampling rate is being halved and the number of bits per sample
+is being halved. Ideally output should be at 16kHz with 16 bits per
+sample. 
+
 .SH BUGS
 
-I have not had a chance to test the output of raw binary samples,
-or loading a sampled excitation waveform from a file. Please let me
-know if there are problems.
+I have not had a chance to test loading a sampled excitation waveform
+from a file. Please let me know if there are problems.
 
 My research does not (yet) require me to use the synthesizer in its
 primary mode, which is combined cascade-parallel operation. I have
@@ -407,8 +428,10 @@ Nick Ing-Simmons (nicki@lobby.ti.com)
 
 .SH ACKNOWLEDGEMENTS
 
-Many thanks to Tony Robinson for his help, and Alan Black for prompt
-bug spotting!
+Many thanks to Tony Robinson for his help and support. 
+Thanks also Alan Black, Paul Callaghan, Johannes Kiehl, Arthur
+Dirksen and Gary Murphy for prompt bug spotting and feedback, and to Mark
+Thornton for help with C7.
 
 .SH REFERENCES
 

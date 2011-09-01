@@ -1,8 +1,8 @@
 /*
 title:  KLATT.C
 author: Jon Iles (j.p.iles@cs.bham.ac.uk)
-date: 15/11/93
-version: 3.0
+date: 20/4/94
+version: 3.03
 notes:  
 
 This file contains C code to provide a simple interface to
@@ -14,7 +14,8 @@ posted to comp.speech in 1993, and has been updated by me
 to fix a number of bugs that had been introduced. Subsequently
 major rewrites have been done by Nick Ing-Simmons to improve 
 efficiency and change the code into a more acceptable ANSI C style, 
-and by me to remove all global variable references.
+and by me to remove all global variable references, fix bugs and ensure
+portability.
 
 See the README file and man page for more details.
 
@@ -37,9 +38,20 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
+#include <string.h>
 #include "proto.h"
 #include "parwave.h"
+#include "getopt.h"
 
+#ifdef _MSC_VER
+#define _DOS
+#endif
+
+#ifdef __BORLANDC__
+#define _DOS
+#endif
 
 /* for default sampled glottal excitation waveform */
 
@@ -85,10 +97,8 @@ static void usage()
 }
 
 
-void main(argc,argv)
+void main(int argc,char **argv)
 
-int argc;
-char *argv[];  
 
 {
   extern char *optarg;
@@ -100,13 +110,13 @@ char *argv[];
   int result;
   flag done_flag;
   long value;
-  int iwave[MAX_SAM];
+  int *iwave;
   int isam;
   int icount;
   int par_count;   
   int nmspf_def;
-  klatt_global_t globals;
-  klatt_frame_t frame;
+  klatt_global_ptr globals;
+  klatt_frame_ptr frame;
   long *frame_ptr;
   unsigned char high_byte;
   unsigned char low_byte;
@@ -139,17 +149,38 @@ char *argv[];
   strcpy(outfile,"");
   strcpy(samples_file,"");
 
-  globals.quiet_flag = FALSE;
-  globals.synthesis_model = ALL_PARALLEL;
-  globals.samrate = 10000;
-  globals.glsource = NATURAL;
-  globals.natural_samples = natural_samples;
-  globals.num_samples = NUMBER_OF_SAMPLES;
-  globals.sample_factor = SAMPLE_FACTOR;
+  iwave = (int*) malloc(sizeof(int)*MAX_SAM);
+  if(iwave==NULL)
+  {
+	perror("malloc failed");
+        exit(1);
+  }
+
+  globals = (klatt_global_ptr)malloc(sizeof(klatt_global_t));
+  if(globals==NULL)
+  {
+    perror("malloc failed");
+    exit(1);
+  }
+
+  frame = (klatt_frame_ptr)malloc(sizeof(klatt_frame_t));
+  if(frame==NULL)
+  {
+	perror("malloc failed");
+	exit(1);
+  }
+
+  globals->quiet_flag = FALSE;
+  globals->synthesis_model = ALL_PARALLEL;
+  globals->samrate = 10000;
+  globals->glsource = NATURAL;
+  globals->natural_samples = natural_samples;
+  globals->num_samples = NUMBER_OF_SAMPLES;
+  globals->sample_factor = (float) SAMPLE_FACTOR;
   nmspf_def = 10;
-  globals.nfcascade = 0;
-  globals.outsl = 0;
-  globals.f0_flutter = 0;
+  globals->nfcascade = 0;
+  globals->outsl = 0;
+  globals->f0_flutter = 0;
   raw_flag = FALSE;
 
   while((c = getopt(argc,argv,"i:o:t:s:f:n:F:v:V:qchr:"))!=EOF)
@@ -163,23 +194,23 @@ char *argv[];
       strcpy(outfile,optarg);
       break;
     case 'q':
-      globals.quiet_flag = TRUE;
+      globals->quiet_flag = TRUE;
       break;
     case 't':
-      globals.outsl = (flag) atoi(optarg);
+      globals->outsl = (flag) atoi(optarg);
       break;
     case 'c':
-      globals.synthesis_model = CASCADE_PARALLEL;
-      globals.nfcascade = 5;
+      globals->synthesis_model = CASCADE_PARALLEL;
+      globals->nfcascade = 5;
       break;
     case 's':
-      globals.samrate = atoi(optarg);
+      globals->samrate = atoi(optarg);
       break;
     case 'f':
       nmspf_def = atoi(optarg);
       break;
     case 'v':
-      globals.glsource = (flag) atoi(optarg);
+      globals->glsource = (flag) atoi(optarg);
       break;
     case 'V':
       strcpy(samples_file,optarg);
@@ -189,10 +220,10 @@ char *argv[];
       exit(1);
       break;
     case 'n':
-      globals.nfcascade = atoi(optarg);
+      globals->nfcascade = atoi(optarg);
       break;
     case 'F':
-      globals.f0_flutter = atoi(optarg);
+      globals->f0_flutter = atoi(optarg);
       break;
     case 'r':
       raw_flag = TRUE;
@@ -201,7 +232,7 @@ char *argv[];
     }
   }
 
-  globals.nspfr = (globals.samrate * nmspf_def) / 1000;
+  globals->nspfr = (globals->samrate * nmspf_def) / 1000;
 
   if(strcmp(samples_file,"")!=0)
   {
@@ -213,19 +244,20 @@ char *argv[];
       exit(1);
     }
 
-    fscanf(infp,"%i",globals.num_samples);
-    fscanf(infp,"%f",globals.sample_factor);
+    fscanf(infp,"%i",&(globals->num_samples));
+    fscanf(infp,"%f",&(globals->sample_factor));
 
-    globals.natural_samples = (int*) malloc(sizeof(int)*globals.num_samples);
-    if(globals.natural_samples==NULL)
+
+    globals->natural_samples = (int*) malloc(sizeof(int)*globals->num_samples);
+    if(globals->natural_samples==NULL)
     {
       perror("malloc failed for natural samples");
       exit(1);
     }
 
-    for(loop=0;loop<globals.num_samples;loop++)
+    for(loop=0;loop<globals->num_samples;loop++)
     {
-      fscanf(infp,"%i",globals.natural_samples[loop]);
+      fscanf(infp,"%i",&(globals->natural_samples[loop]));
     }
 
     fclose(infp);
@@ -249,11 +281,23 @@ char *argv[];
   if(strcmp(outfile,"")==0)
   {
     outfp = stdout;
-    globals.quiet_flag = TRUE;
+    globals->quiet_flag = TRUE;
   }
   else
   {
+#ifdef _DOS
+    if(raw_flag==TRUE)
+    {
+       outfp = fopen(outfile,"wb");
+    }
+    else
+    {
+       outfp = fopen(outfile,"w");
+    }
+#else
     outfp = fopen(outfile,"w");
+#endif
+
     if(outfp==NULL)
     {
       perror("can't open output file");
@@ -263,14 +307,21 @@ char *argv[];
 
   icount=0;
   done_flag = FALSE;
-  parwave_init(&globals);
-  frame_ptr = (long*) &frame;
+  parwave_init(globals);
+  frame_ptr = (long*) frame;
 
   while(done_flag == FALSE)
   {
     for (par_count = 0; par_count < NPAR; ++par_count)
     {
-      result = fscanf(infp,"%i",&value);
+      value = 0;
+
+#ifdef __BORLANDC__
+      result = fscanf(infp,"%ld",&value);
+#else
+      result = fscanf(infp,"%i",(int*)&value);
+#endif
+
       frame_ptr[par_count] = value;
     }
     
@@ -280,15 +331,15 @@ char *argv[];
     }
     else
     {
-      parwave(&globals,&frame,&iwave[0]);
+      parwave(globals,frame,iwave);
 
-      if(globals.quiet_flag == FALSE)
+      if(globals->quiet_flag == FALSE)
       {
 	printf("\rFrame %i",icount);
 	fflush(stdout);
       }
 
-      for (isam = 0; isam < globals.nspfr; ++ isam) 
+      for (isam = 0; isam < globals->nspfr; ++ isam)
       { 
 	if(raw_flag == TRUE)
 	{
@@ -323,35 +374,8 @@ char *argv[];
     fclose(outfp);
   }
 
-  if(globals.quiet_flag == FALSE)
+  if(globals->quiet_flag == FALSE)
   {
     printf("\nDone\n");
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,7 +1,7 @@
 /*
 file: PARWAVE.C
-date: 15/11/93
-version: 3.0
+date: 20/4/94
+version: 3.03
 
 An implementation of a Klatt cascade-parallel formant synthesizer.
 A re-implementation in C of Dennis Klatt's Fortran code, by: 
@@ -11,7 +11,7 @@ Nick Ing-Simmons (nicki@lobby.ti.com)
 
 See the README file for further details.
 
-(c) 1993 Jon Iles and Nick Ing-Simmons
+(c) 1993,94 Jon Iles and Nick Ing-Simmons
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,10 +29,16 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "proto.h"
 #include "parwave.h"
 
+#ifdef _MSC_VER
+#define getrandom(min,max) ((rand()%(int)(((max)+1)-(min)))+(min))
+#else
+#define getrandom(min,max) ((rand()%(long)(((max)+1)-(min)))+(min))
+#endif
 
 /* function prototypes for functions private to this file */
 
@@ -64,9 +70,12 @@ resonator_ptr r;
 float input;
 
 {
- register float x = r->a * input + r->b * r->p1 + r->c * r->p2;
+ float x;
+
+ x = (float) (r->a * input + r->b * r->p1 + r->c * r->p2);
  r->p2 = r->p1;
  r->p1 = x;
+
  return x;
 }
 
@@ -150,7 +159,7 @@ klatt_global_ptr globals;
 
   if(globals->T0!=0)
   {
-    ftemp = globals->nper;
+    ftemp = (float) globals->nper;
     ftemp = ftemp / globals->T0;
     ftemp = ftemp * globals->num_samples;
     itemp = (int) ftemp;
@@ -207,7 +216,9 @@ int *output;
 
   frame_init(globals,frame);  /* get parameters for next frame of speech */
 
+
   flutter(globals,frame);  /* add f0 flutter */
+
 
   /* MAIN LOOP, for each output sample of current frame: */
 
@@ -225,7 +236,7 @@ int *output;
 
     if (globals->nper > globals->nmod) 
     {
-      noise *= 0.5;
+      noise *= (float) 0.5;
     }
 
     /* Compute frication noise */
@@ -437,14 +448,14 @@ int *output;
     temp = out * globals->amp_gain0;  /* Convert back to integer */
 
 
-    if (temp < -32768) 
+    if (temp < -32768.0)
     {
-      temp = -32768;
+      temp = -32768.0;
     }
     
-    if (temp >  32767) 
+    if (temp >	32767.0)
     {
-      temp =  32767;
+      temp =  32767.0;
     }
 
     *output++ = (int) temp;
@@ -473,7 +484,9 @@ klatt_global_ptr globals;
   setabc(globals->FLPhz,globals->BLPhz,&(globals->rlp),globals);
   globals->nper = 0;
   globals->T0 = 0;
-  
+  globals->nopen = 0;
+  globals->nmod = 0;
+
   globals->rnpp.p1=0;
   globals->r1p.p1=0;
   globals->r2p.p1=0;
@@ -746,6 +759,8 @@ klatt_frame_ptr frame;
     /* T0 is 4* the number of samples in one pitch period */
 
     globals->T0 = (40 * globals->samrate) / frame->F0hz10;
+
+
     globals->amp_voice = DBtoLIN(frame->AVdb);
 
     /* Duration of period before amplitude modulation */
@@ -785,7 +800,7 @@ klatt_frame_ptr frame;
       if(globals->quiet_flag == FALSE)
       {
 	printf("Warning: minimum glottal open period is 10 samples.\n");
-	printf("truncated, nopen = %d\n",globals->nopen);
+	printf("truncated, nopen = %i\n",(int)globals->nopen);
       }
     }
 
@@ -818,7 +833,7 @@ klatt_frame_ptr frame;
       if(globals->quiet_flag == FALSE)
       {
 	printf("Kskew duration=%d > glottal closed period=%d, truncate\n",
-	       frame->Kskew, globals->T0 - globals->nopen);
+	       (int)frame->Kskew, (int)(globals->T0 - globals->nopen));
       }
       frame->Kskew = temp;
     }
@@ -927,6 +942,13 @@ klatt_global_ptr globals;
  float r;
  double arg;
 
+ f = -f;
+
+ if(f>=0)
+ {
+   f = -1;
+ }
+
 /* First compute ordinary resonator coefficients */
 /* Let r  =  exp(-pi bw t) */
 
@@ -962,6 +984,7 @@ Noise spectrum is tilted down by soft low-pass filter having a pole near
 the origin in the z-plane, i.e. output = input + (0.75 * lastoutput) 
 */
 
+
 static float gen_noise(noise,globals) 
 
 float noise;
@@ -971,15 +994,14 @@ klatt_global_ptr globals;
   long temp;
   static float nlast;
 
-  temp = rand();
-  globals->nrand = (temp >> 17) - 8191;  
+  temp = (long) getrandom(-8191,8191);
+  globals->nrand = (long) temp;
 
   noise = globals->nrand + (0.75 * nlast);
   nlast = noise;
+
   return(noise);
 }
-
-
 
 
 /*
@@ -1028,19 +1050,3 @@ long dB;
   lgtemp=amptable[dB] * .001;
   return(lgtemp);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

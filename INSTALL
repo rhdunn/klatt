@@ -1,9 +1,7 @@
-Installation Instructions
--------------------------
+Installation Instructions v 3.03 (April 1994)
+---------------------------------------------
 
-I have not tried to compile this code on anything but the Sun Sparc
-architecture. I would appreciate any comments regarding problems or
-successes with compilation on other types of machine.
+Unix Boxes...
 
 On a unix machine, type 'make' to compile a copy of klatt in the
 current directory. 'make install' will copy the relevant files into
@@ -17,3 +15,39 @@ installation. This will leave you with the original distribution.
 The code uses the 'proto' macro in an attempt at portability between
 ANSI and K&R style C compilers. It has successfully been compiled
 using 'cc' and 'gcc' on the Sun Sparc architecture. 
+
+SGI Boxes...
+
+A special mention for SGI users! I have been told that the "getopt" function
+as supplied with the SGI machine does not return the expected value when it
+has parsed all of the command line arguments. You may have to modify the
+code at this point to deal with this... Or alternatively use the GNU
+getopt (as detailed below)
+
+PC Boxes...
+
+I have compiled this code successfully under Microsoft C 7.0. I've used the
+_MSC_VER flag to do some conditional compilation, which seems to be the only
+way of telling that you are using the Microsoft C package.
+
+The code should (ho ho) compile under Borland C. I would appreciate any
+feedback on this, as well as attempts at compiling / using the code using
+any other compiler / architecture.
+
+For both Microsoft C and Borland C, I believe there is no "getopt" library
+function. To remedy this, and to provide a consistent interface, I've
+included the source for the GNU version of getopt (usual GPL applies),
+this worked fine under Microsoft C.
+
+
+Other Boxes and OS's
+
+Please let me know about any problems you have, favourite bug fixes,
+enhancements you'd like to see etc.
+
+Cheers,
+
+Jon
+
+j.p.iles@cs.bham.ac.uk
+

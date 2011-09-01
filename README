@@ -1,5 +1,5 @@
-Klatt Cascade-Parallel Formant Synthesizer v 3.0
-------------------------------------------------
+Klatt Cascade-Parallel Formant Synthesizer v 3.03 (April 1994)
+--------------------------------------------------------------
 
 Jon Iles           j.p.iles@cs.bham.ac.uk
 Nick Ing-Simmons   nicki@lobby.ti.com
@@ -76,6 +76,15 @@ based. This may be obtained indirectly by inverse-filtering a vowel.
 11. This synthesizer appears in modified form as part of Nick's
 rsynth text-to-speech system. This may be found at svr-ftp.eng.cam.ac.uk
 in comp.speech/sources.
+
+12. Fixed bug to the antiresonator code that caused overflow problems
+when compiling on a PC
+
+13. Various minor modifications to ensure correct compilation using
+Microsoft C 7.0 (tested) and Borland C (untested). 
+
+14. Modified random number generation for noise production as
+previously it was dependent on the size of the "long" type.
 
 Input File Format
 -----------------
@@ -237,6 +246,20 @@ to produce the output waveforms:
 The '-r' option can be used to produce raw binary output, which can
 then be converted to many different formats using utilities such as
 'sox' (sound exchange) which are available from major ftp sites.
+
+An example is given below of conversion to the ulaw encoded format
+used by Sun Sparc SLC's
+
+sox -r 16000 -s -w example.raw -r 8000 -b -U example.au
+
+Beware of the byte ordering of your machine - if the above procedure
+produces distored rubbish, try using -r 2 instead of -r 1. This just
+reverses the byte ordering in the raw binary output file. It is also
+worth noting that the above example reduces the quality of the output,
+as the sampling rate is being halved and the number of bits per sample
+is being halved. Ideally output should be at 16kHz with 16 bits per
+sample. 
+
 
 Notes
 -----

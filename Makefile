@@ -7,11 +7,11 @@
 # before installing, change these parameters to suit your local site.
 #
 
-BIN = /usr/local/bin
-MAN = /usr/local/man/man1
+BIN = /home/pg/jpi/bin
+MAN = /home/pg/jpi/man/man1
 
 CC = gcc
-CFLAGS = 
+CFLAGS =
 
 
 all: klatt
