@@ -1,0 +1,19 @@
+Installation Instructions
+-------------------------
+
+I have not tried to compile this code on anything but the Sun Sparc
+architecture. I would appreciate any comments regarding problems or
+successes with compilation on other types of machine.
+
+On a unix machine, type 'make' to compile a copy of klatt in the
+current directory. 'make install' will copy the relevant files into
+the required installation binary and manual page directories. These
+directories are specified at the top of the makefile and can be edited
+according to local site requirements.
+
+Use 'make clean' to remove all files created during compilation and
+installation. This will leave you with the original distribution.
+
+The code uses the 'proto' macro in an attempt at portability between
+ANSI and K&R style C compilers. It has successfully been compiled
+using 'cc' and 'gcc' on the Sun Sparc architecture. 

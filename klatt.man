@@ -1,0 +1,425 @@
+.TH klatt 1 "January 1994" 
+.SH NAME
+klatt \-  Klatt cascade-parallel formant synthesizer
+.SH SYNTAX
+.B klatt
+[
+.B \-i
+.I input filename
+][
+.B \-o
+.I output filename
+][
+.B \-q
+][
+.B \-t
+.I output waveform type
+][
+.B \-c
+][
+.B \-n
+.I number of formants in the parallel branch
+][
+.B \-s
+.I sample rate
+][
+.B \-f
+.I number of milliseconds per frame
+][
+.B \-v
+.I voicing source
+][
+.B \-V
+.I sampled voicing filename
+][
+.B \-r
+.I raw samples output type
+][
+.B \-F
+.I percent f0 flutter
+]
+.SH DESCRIPTION
+.de EX		\"Begin example
+.ne 5
+.if n .sp 1
+.if t .sp .5
+.nf
+.ta +8u*\w'\0'u +8u*\w'\0'u +8u*\w'\0'u +8u*\w'\0'u +8u*\w'\0'u +8u*\w'\0'u
+..
+.de EE
+.fi
+.if n .sp 1
+.if t .sp .5
+..
+The 
+.I klatt 
+software is an implementation of a speech synthesizer first
+described by Dennis Klatt in 1980 [1]. The object of the program is to convert
+a set of parameter values into a waveform representing speech sound. The
+following pages describe the command line options available to the user, and
+the format of the input and output data files. Details of the history
+of this code and the modifications that have been made can be found in
+the README file in the distribution.
+
+.SH OPTIONS
+.TP
+.B \-h
+Displays a help message
+
+.TP
+.B \-i 
+.I filename
+User specified input filename. The file specified will contain ASCII
+data in a format described in a later section. If no filename is
+specified then input is assumed to be from stdin.
+
+.TP 
+.B \-o
+.I filename
+User specified output filename. The output speech waveform will be written to 
+this file. The output waveform may be written as signed 16 bit integers in 
+raw binary samples, or as a file of ASCII integers. This second format is 
+suitable for plotting the waveform using gnuplot etc. If no filename
+is specified, then output is assumed to be to stdout.
+
+.TP
+.B \-q
+Run in quiet mode, no output messages are produced. The default is to
+run in verbose mode, where details of the current frame of parameters
+being processed will be displayed on the screen.
+
+.TP
+.B \-t
+.I Ouput Waveform Type
+This option allows the user to select the type of waveform that is
+passed to the output file. The default for this option is the complete
+speech waveform. The list below indicates the available options. Note,
+a value must be set at compilation time to enable the code which
+generates the various output waveforms. This code may be disabled
+to improve the speed and efficiency of the program overall. The
+options available are listed below.
+
+
+.B 1
+voicing.
+
+.B 2
+aspiration.
+
+.B 3
+frication.
+
+.B 4 
+cascade glottal output.
+
+.B 5
+parallel glottal output.
+
+.B 6
+bypass output.
+
+.B 7
+all excitation (frication voicing etc.).
+
+.TP
+.B \-c
+This flag selects full cascade-parallel operation. The default setting
+of the synthesizer is parallel branch only.
+
+.TP
+.B \-n
+.I Number of Formants.
+This option is used to set the number of formants in the cascade
+branch of the synthesizer. The default number is 5.
+
+.TP
+.B \-s
+.I Sample Rate
+Sets the sample rate used for the output waveform. The default is
+10000 (10kHz).
+
+.TP
+.B \-f
+.I Number of Milliseconds per Frame
+This value specifies the number of milliseconds of output waveform
+each frame of synthesizer parameters represents. The default is 10.
+
+.TP 
+.B \-v
+.I Voicing Source
+Three types of voicing source are available, these are listed below.
+
+.B 1
+.I Impulse train. 
+This is just a series of regular pulses. The pulses are
+smoothed using low-pass filtering to remove unwanted "sharp"
+transitions. These pulses do not resemble the excitation waveform
+derived from natural voicing.
+
+.B 2
+.I Natural Simulation
+This voicing source is an idealised version of the natural excitation
+waveform. It is in fact the inverse (from left to right) of a real
+excitation waveform, although this should not be a problem unless
+total accuray in modelling natural speech is required.
+
+.B 3
+.I Sampled Natural Excitation
+The software provides the ability to utilise the excitation waveform
+measured from the voice of a real speaker. The easiest way to get this
+is through inverse filtering. A default sampled excitation waveform is
+supplied, although I make no claims for its usefulness!
+
+.TP
+.B \-V
+.I Sampled Natural Excitation Filename
+The sampled excitation waveform used by the software can be loaded in
+from a file. The file is expected in the following format, in ASCII
+characters. First, an integer representing the total number of
+samples, secondly, a floating point value indicating the amount these
+values are to be scaled by when used. Finally, the required number of
+integer samples.
+
+.TP
+.B \-r
+.I Raw Samples Output Type
+Selecting this flag will produce the output waveform as a raw binary
+file, rather than as ASCII integers. Two types are available, type 1
+gives a high byte - low byte arrangement, and type 2 gives a low byte -
+high byte arrangement.
+
+.TP 
+.B\-F
+.I Percent f0 Flutter
+The percentage of f0 flutter to be applied to the synthesized speech
+as described in [2]. f0 flutter is an attempt to cure synthetic speech
+of lack of naturalness introduced by using constant values of f0. A
+small amount of quasi-random f0 flutter is applied when this value is
+greater than 0.
+
+
+.SH INPUT FILE FORMAT
+
+
+The input file consists of a series of parameter frames. Each frame of
+parameters (usually) represents 10ms of audio output, although this
+figure can be adjusted down to 1ms per frame. The parameters in each
+frame are described below. To avoid confusion, note that the cascade
+and parallel branch of the synthesizer duplicate some of the control
+parameters. 
+
+.TP
+.B \ f0
+This is the fundamental frequency (pitch) of the utterance
+in this case it is specified in steps of 0.1 Hz, hence 100Hz
+will be represented by a value of 1000.
+
+.TP
+.B \ av 
+Amplitude of voicing for the cascade branch of the
+synthesizer in dB. Range 0-70, value usually about 60 for a vowel sound.
+
+.TP
+.B \ f1
+First formant frequency. Range usually 200-1300 Hz.
+
+.TP
+.B \ b1
+Cascade branch, bandwidth of first formant. Range usually 40-1000 Hz. 
+
+.TP
+.B \ f2
+Second formant frequency. Range usually 550-3000 Hz.	
+
+.TP
+.B \ b2
+Cascade branch, bandwidth of second formant. Range usually 40-1000 Hz. 
+
+.TP
+.B \ f3
+Third formant frequency. Range usually 1200-4999 Hz.
+
+.TP
+.B \ b3      
+Cascade branch bandwidth of third formant. Range usually 40-1000 Hz. 
+
+.TP
+.B \ f4      
+Fourth formant frequency. Range usually 1200-4999 Hz.
+
+.TP
+.B \ b4      
+Cascade branch, bandwidth of fourth formant. Range usually 40-1000 Hz. 
+
+.TP
+.B \ f5      
+Fifth formant frequency. Range usually 1200-4999 Hz.
+
+.TP
+.B \ b5      
+Cascade branch, bandwidth of fifth formant. Range usually 40-1000 Hz. 
+
+.TP
+.B \ f6      
+Sixth formant frequency. Range usually 1200-4999 Hz.
+
+.TP
+.B \ b6      
+Cascade branch, bandwidth of sixth formant. Range usually 40-2000 Hz. 
+
+.TP
+.B \ fnz  	
+Frequency of the nasal zero. Range usually 248-528 Hz (cascade branch only). 
+
+.TP
+.B \ bnz   	
+Bandwidth of the nasal zero. Range usually 40-1000 Hz (cascade branch only).
+
+.TP
+.B \ fnp   	
+Frequency of the nasal pole. Range usually 248-528 Hz .
+
+.TP
+.B \ bnp   	
+Bandwidth of the nasal pole in 40-1000 Hz 
+
+.TP
+.B \ asp    	
+Amplitude of aspiration 0-70 dB.
+
+.TP
+.B \ kopen 	
+Open quotient of voicing waveform, range 0-60, usually 30.
+Will influence the gravelly or smooth quality of the voice.
+Only works with impulse and antural simulations. For the
+sampled glottal excitation waveform the open quotient is fixed.
+
+.TP
+.B \ aturb 	
+Amplitude of turbulence 0-80 dB. A value of 40 is useful. Can be
+used to simulate "breathy" voice quality.
+
+.TP
+.B \ tilt  	
+Spectral tilt in dB, range 0-24. Tilts down the output spectrum.
+The value refers to dB down at 3Khz. Increasing the value emphasizes
+the low frequency content of the speech and attenuates the high
+frequency content.
+
+.TP
+.B \ af    	
+Amplitude of frication in dB, range 0-80 (parallel branch).
+
+.TP
+.B \ skew  	
+Spectral Skew - skewness of alternate periods, range 0-40
+
+.TP
+.B \ a1    	
+Amplitude of first formant in the parallel branch, in 0-80 dB.
+
+.TP
+.B \ b1p  	
+Bandwidth of the first formant in the parallel branch, in Hz.
+
+.TP
+.B \ a2    	
+Amplitude of parallel branch second formant.
+
+.TP
+.B \ b2p   	
+Bandwidth of parallel branch second formant.
+
+.TP
+.B \ a3    	
+Amplitude of parallel branch third formant.
+
+.TP
+.B \ b3p	
+Bandwidth of parallel branch third formant.
+
+.TP
+.B \ a4    	
+Amplitude of parallel branch fourth formant.
+
+.TP
+.B \ b4p   	
+Bandwidth of parallel branch fourth formant.
+
+.TP
+.B \ a5	
+Amplitude of parallel branch fifth formant.
+
+.TP
+.B \ b5p   	
+Bandwidth of parallel branch fifth formant.
+
+.TP
+.B \ a6	
+Amplitude of parallel branch sixth formant.
+
+.TP
+.B \ b6p   	
+Bandwidth of parallel branch sixth formant.
+
+.TP
+.B \ anp   	
+Amplitude of the parallel branch nasal formant.
+
+.TP
+.B \ ab    	
+Amplitude of bypass frication in dB. 0-80.
+
+.TP
+.B \ avp	
+Amplitude of voicing for the parallel branch, 0-70 dB.
+
+.TP
+.B \ gain  	
+Overall gain in dB range 0-80.
+
+.SH BUGS
+
+I have not had a chance to test the output of raw binary samples,
+or loading a sampled excitation waveform from a file. Please let me
+know if there are problems.
+
+My research does not (yet) require me to use the synthesizer in its
+primary mode, which is combined cascade-parallel operation. I have
+primarily used the synthesizer in parallel only mode. I would
+appreciate any comments regarding use of the cascade branch.
+
+Finally, there is no protection against rapid parameter changes. Large
+jumps in many of the parameters will cause clicks and pops in the
+output. This may be remedied in future with some form of parameter
+clamping that becomes effective when parameters exceed a set rate of
+change. 
+
+All bug reports and queries to Jon Iles, (j.p.iles@cs.bham.ac.uk)
+University of Birmingham, School of Computer Science, Edgbaston,
+Birmingham. B29 7PY. UK.
+
+.SH AUTHORS
+
+Jon Iles (j.p.iles@cs.bham.ac.uk)
+
+Nick Ing-Simmons (nicki@lobby.ti.com)
+
+.SH ACKNOWLEDGEMENTS
+
+Many thanks to Tony Robinson for his help, and Alan Black for prompt
+bug spotting!
+
+.SH REFERENCES
+
+.B [1] 
+Klatt,D.H. Software for a cascade/parallel formant synthesizer, in
+the Journal of the Acoustic Society of America, pages 971-995, volume 67,
+number 3, March 1980.
+
+.B [2]
+Klatt,D.H. and Klatt, L.C. Analysis, synthesis and perception of voice
+quality variations among female and male talkers. In the Journal of
+the Acoustical Society of America", volume 87, number 2. Pages
+820-857. February 1990.
+
