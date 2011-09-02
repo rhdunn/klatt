@@ -790,24 +790,10 @@ static void pitch_synch_par_reset(klatt_global_ptr globals, klatt_frame_ptr fram
 static void setabc(long int f, long int bw, resonator_ptr rp, klatt_global_ptr globals)
 {
  float r;
- double arg;
 
-/* Let r  =  exp(-pi bw t) */
-
- arg = -M_PI / globals->samrate * bw;
- r = exp(arg);
-
-/* Let c  =  -r**2 */
-
+ r = exp(-M_PI / globals->samrate * bw);
  rp->c = -(r * r);
-
-/* Let b = r * 2*cos(2 pi f t) */
-
- arg = 2.0 * M_PI / globals->samrate * f;
- rp->b = r * cos(arg) * 2.0;
-
-/* Let a = 1.0 - b - c */
-
+ rp->b = r * cos(2.0 * M_PI / globals->samrate * f) * 2.0;
  rp->a = 1.0 - rp->b - rp->c;
 }
 
@@ -819,7 +805,6 @@ static void setabc(long int f, long int bw, resonator_ptr rp, klatt_global_ptr g
 static void setzeroabc(long int f, long int bw, resonator_ptr rp, klatt_global_ptr globals)
 {
  float r;
- double arg;
 
  f = -f;
 
@@ -829,22 +814,10 @@ static void setzeroabc(long int f, long int bw, resonator_ptr rp, klatt_global_p
  }
 
 /* First compute ordinary resonator coefficients */
-/* Let r  =  exp(-pi bw t) */
 
- arg = -M_PI / globals->samrate * bw;
- r = exp(arg);
-
-/* Let c  =  -r**2 */
-
+ r = exp(-M_PI / globals->samrate * bw);
  rp->c = -(r * r);
-
-/* Let b = r * 2*cos(2 pi f t) */
-
- arg = 2.0 * M_PI / globals->samrate * f;
- rp->b = r * cos(arg) * 2.;
-
-/* Let a = 1.0 - b - c */
-
+ rp->b = r * cos(2.0 * M_PI / globals->samrate * f) * 2.0;
  rp->a = 1.0 - rp->b - rp->c;
 
 /* Now convert to antiresonator coefficients (a'=1/a, b'=b/a, c'=c/a) */
