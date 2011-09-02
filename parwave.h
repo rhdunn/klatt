@@ -37,9 +37,15 @@ typedef enum
 #define MAX_SAM          20000     /* Maximum sample rate */
 #define TRUE             1
 #define FALSE            0
-#define IMPULSIVE        1         /* Type of voicing source */
-#define NATURAL          2
-#define SAMPLED          3
+
+/** @brief The voicing source generator to use for glottal waveforms.
+  */
+typedef enum
+{
+	IMPULSIVE,
+	NATURAL,
+	SAMPLED,
+} klatt_voicing_source_t;
 
 typedef char flag;
 
@@ -64,7 +70,7 @@ typedef struct
   long FLPhz ;      /* Frequeny of glottal downsample low-pass filter */
   long BLPhz ;      /* Bandwidth of glottal downsample low-pass filter */
   long nfcascade;   /* Number of formants in cascade vocal tract    */
-  flag glsource;    /* Type of glottal source */
+  klatt_voicing_source_t glsource;    /* Type of glottal source */
   int f0_flutter;   /* Percentage of f0 flutter 0-100 */
   flag quiet_flag;  /* set to TRUE for error messages */
   long nspfr;       /* number of samples per frame */
