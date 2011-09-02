@@ -413,8 +413,6 @@ void parwave_init(klatt_global_ptr globals)
 {
   globals->FLPhz = (950 * globals->samrate) / 10000;
   globals->BLPhz = (630 * globals->samrate) / 10000;
-  globals->minus_pi_t = -M_PI / globals->samrate;
-  globals->two_pi_t = -2.0 * globals->minus_pi_t;
   setabc(globals->FLPhz,globals->BLPhz,&(globals->rlp),globals);
   globals->nper = 0;
   globals->T0 = 0;
@@ -796,7 +794,7 @@ static void setabc(long int f, long int bw, resonator_ptr rp, klatt_global_ptr g
 
 /* Let r  =  exp(-pi bw t) */
 
- arg = globals->minus_pi_t * bw;
+ arg = -M_PI / globals->samrate * bw;
  r = exp(arg);
 
 /* Let c  =  -r**2 */
@@ -805,7 +803,7 @@ static void setabc(long int f, long int bw, resonator_ptr rp, klatt_global_ptr g
 
 /* Let b = r * 2*cos(2 pi f t) */
 
- arg = globals->two_pi_t * f;
+ arg = 2.0 * M_PI / globals->samrate * f;
  rp->b = r * cos(arg) * 2.0;
 
 /* Let a = 1.0 - b - c */
@@ -833,7 +831,7 @@ static void setzeroabc(long int f, long int bw, resonator_ptr rp, klatt_global_p
 /* First compute ordinary resonator coefficients */
 /* Let r  =  exp(-pi bw t) */
 
- arg = globals->minus_pi_t * bw;
+ arg = -M_PI / globals->samrate * bw;
  r = exp(arg);
 
 /* Let c  =  -r**2 */
@@ -842,7 +840,7 @@ static void setzeroabc(long int f, long int bw, resonator_ptr rp, klatt_global_p
 
 /* Let b = r * 2*cos(2 pi f t) */
 
- arg = globals->two_pi_t * f;
+ arg = 2.0 * M_PI / globals->samrate * f;
  rp->b = r * cos(arg) * 2.;
 
 /* Let a = 1.0 - b - c */

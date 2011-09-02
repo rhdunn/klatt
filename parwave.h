@@ -70,8 +70,6 @@ typedef struct
   long nrand;       /* Varible used by random number generator      */
   float pulse_shape_a;  /* Makes waveshape of glottal pulse when open   */
   float pulse_shape_b;  /* Makes waveshape of glottal pulse when open   */
-  float minus_pi_t;
-  float two_pi_t;
   float onemd;
   float decay;
   float amp_bypas; /* AB converted to linear gain              */
