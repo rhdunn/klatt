@@ -93,9 +93,9 @@ static void flutter(klatt_global_ptr globals, klatt_frame_ptr frame)
 
   fla = (double) globals->f0_flutter / 50;
   flb = (double) globals->original_f0 / 100;
-  flc = sin(2*PI*12.7*time_count);
-  fld = sin(2*PI*7.1*time_count);
-  fle = sin(2*PI*4.7*time_count);
+  flc = sin(2*M_PI*12.7*time_count);
+  fld = sin(2*M_PI*7.1*time_count);
+  fle = sin(2*M_PI*4.7*time_count);
   delta_f0 =  fla * flb * (flc + fld + fle) * 10;
   frame->F0hz10 = frame->F0hz10 + (long) delta_f0;
   time_count++;
@@ -413,7 +413,7 @@ void parwave_init(klatt_global_ptr globals)
 {
   globals->FLPhz = (950 * globals->samrate) / 10000;
   globals->BLPhz = (630 * globals->samrate) / 10000;
-  globals->minus_pi_t = -PI / globals->samrate;
+  globals->minus_pi_t = -M_PI / globals->samrate;
   globals->two_pi_t = -2.0 * globals->minus_pi_t;
   setabc(globals->FLPhz,globals->BLPhz,&(globals->rlp),globals);
   globals->nper = 0;

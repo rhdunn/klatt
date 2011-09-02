@@ -34,7 +34,6 @@
 #define IMPULSIVE        1         /* Type of voicing source */
 #define NATURAL          2
 #define SAMPLED          3
-#define PI               3.1415927
 
 typedef char flag;
 
