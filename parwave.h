@@ -1,5 +1,6 @@
 /* An implementation of a Klatt cascade-parallel formant synthesizer.
  *
+ * Copyright (C) 2011 Reece H. Dunn
  * (c) 1993,94 Jon Iles and Nick Ing-Simmons
  *
  * A re-implementation in C of Dennis Klatt's Fortran code, originally by:
@@ -35,14 +36,10 @@
 #define SAMPLED          3
 #define PI               3.1415927
 
-
-
-/* typedef's that need to be exported */
-
 typedef char flag;
 
-/* Resonator Structure */
-
+/** @brief A klatt resonator.
+  */
 typedef struct
 {
   float a;
@@ -52,8 +49,8 @@ typedef struct
   float p2;
 } resonator_t, *resonator_ptr;
 
-/* Structure for Klatt Globals */
-
+/** @brief Parameters, global data and resonators used by the klatt synthesizer.
+  */
 typedef struct
 {
   flag synthesis_model; /* cascade-parallel or all-parallel */
@@ -112,8 +109,8 @@ typedef struct
   resonator_t rout;
 } klatt_global_t, *klatt_global_ptr;
   
-/* Structure for Klatt Parameters */
-
+/** @brief The audio characteristics of an audio frame.
+  */
 typedef struct
 {
   long F0hz10; /* Voicing fund freq in Hz                          */        
@@ -157,11 +154,6 @@ typedef struct
   long AVpdb;  /* Amp of voicing,  par in dB,      0 to   70       */        
   long Gain0;  /* Overall gain, 60 dB is unity,    0 to   60       */        
  } klatt_frame_t, *klatt_frame_ptr;
-
-
-
-
-/* function prototypes that need to be exported */
 
 void parwave(klatt_global_ptr,klatt_frame_ptr,int*);
 void parwave_init(klatt_global_ptr);
