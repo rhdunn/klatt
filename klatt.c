@@ -90,9 +90,7 @@ static void usage()
 }
 
 
-void main(int argc,char **argv)
-
-
+void main(int argc, char **argv)
 {
   extern char *optarg;
   char c;
