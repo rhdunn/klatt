@@ -21,6 +21,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef KLATT_PARWAVE_H
+#define KLATT_PARWAVE_H
+
 #define CASCADE_PARALLEL 1         /* Type of synthesis model */
 #define ALL_PARALLEL     2 
 #define NPAR		 40        /* Number of control parameters */
@@ -162,3 +165,5 @@ typedef struct
 
 void parwave(klatt_global_ptr,klatt_frame_ptr,int*);
 void parwave_init(klatt_global_ptr);
+
+#endif
