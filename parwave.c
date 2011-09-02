@@ -54,12 +54,9 @@ static void setzeroabc(long,long,resonator_ptr,klatt_global_ptr);
   */
 static float resonator(resonator_ptr r, float input)
 {
- float x;
-
- x = (float) (r->a * input + r->b * r->p1 + r->c * r->p2);
+ register float x = r->a * input + r->b * r->p1 + r->c * r->p2;
  r->p2 = r->p1;
  r->p1 = x;
-
  return x;
 }
 
