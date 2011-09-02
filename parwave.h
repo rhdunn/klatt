@@ -25,8 +25,14 @@
 #ifndef KLATT_PARWAVE_H
 #define KLATT_PARWAVE_H
 
-#define CASCADE_PARALLEL 1         /* Type of synthesis model */
-#define ALL_PARALLEL     2 
+/** @brief The type of synthesis model to use.
+  */
+typedef enum
+{
+	CASCADE_PARALLEL, /* FIXME: This generates wierd audio at the end of example1.par and all through example2.par! */
+	ALL_PARALLEL,
+} klatt_model_t;
+
 #define NPAR		 40        /* Number of control parameters */
 #define MAX_SAM          20000     /* Maximum sample rate */
 #define TRUE             1
@@ -52,7 +58,7 @@ typedef struct
   */
 typedef struct
 {
-  flag synthesis_model; /* cascade-parallel or all-parallel */
+  klatt_model_t synthesis_model; /* cascade-parallel or all-parallel */
   flag outsl;       /* Output waveform selector                      */
   long samrate;     /* Number of output samples per second           */
   long FLPhz ;      /* Frequeny of glottal downsample low-pass filter */
