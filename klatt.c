@@ -57,12 +57,8 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #define NUMBER_OF_SAMPLES 100
 #define SAMPLE_FACTOR 0.00001
 
-/*
-function USAGE
-
-Displays the command line options.
-*/
-
+/** @brief Displays the command line options.
+  */
 static void usage()
 {
   printf("Options...\n");

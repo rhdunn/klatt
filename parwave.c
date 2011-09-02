@@ -1,32 +1,27 @@
-/*
-file: PARWAVE.C
-date: 20/4/94
-version: 3.03
-
-An implementation of a Klatt cascade-parallel formant synthesizer.
-A re-implementation in C of Dennis Klatt's Fortran code, by: 
-
-Jon Iles (j.p.iles@cs.bham.ac.uk)
-Nick Ing-Simmons (nicki@lobby.ti.com)
-
-See the README file for further details.
-
-(c) 1993,94 Jon Iles and Nick Ing-Simmons
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 1, or (at your option)
-any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
+/* An implementation of a Klatt cascade-parallel formant synthesizer.
+ *
+ * Copyright (C) 2011 Reece H. Dunn
+ * (c) 1993,94 Jon Iles and Nick Ing-Simmons
+ *
+ * A re-implementation in C of Dennis Klatt's Fortran code, originally by:
+ *
+ * Jon Iles (j.p.iles@cs.bham.ac.uk)
+ * Nick Ing-Simmons (nicki@lobby.ti.com)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 1, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,15 +49,10 @@ static float antiresonator(resonator_ptr, float);
 static void setabc(long,long,resonator_ptr,klatt_global_ptr);
 static void setzeroabc(long,long,resonator_ptr,klatt_global_ptr);
 
-
-
-/*
-function RESONATOR
-
-This is a generic resonator function. Internal memory for the resonator
-is stored in the globals structure.
-*/
-
+/** @brief A generic resonator.
+  *
+  * Internal memory for the resonator is stored in the globals structure.
+  */
 static float resonator(resonator_ptr r, float input)
 {
  float x;
@@ -74,17 +64,12 @@ static float resonator(resonator_ptr r, float input)
  return x;
 }
 
-
-
-/* 
-function ANTIRESONATOR
-
-This is a generic anti-resonator function. The code is the same as resonator 
-except that a,b,c need to be set with setzeroabc() and we save inputs in 
-p1/p2 rather than outputs. There is currently only one of these - "rnz"
-Output = (rnz.a * input) + (rnz.b * oldin1) + (rnz.c * oldin2) 
-*/
-
+/** @brief A generic anti-resonator.
+  *
+  * The code is the same as resonator except that a,b,c need to be set with
+  * setzeroabc() and we save inputs in p1/p2 rather than outputs. There is
+  * currently only one of these - "rnz".
+  */
 static float antiresonator(resonator_ptr r, float input)
 {
  register float x = r->a * input + r->b * r->p1 + r->c * r->p2;
@@ -93,20 +78,14 @@ static float antiresonator(resonator_ptr r, float input)
  return x;
 }
 
-
-
-/*
-function FLUTTER
-
-This function adds F0 flutter, as specified in:
-
-"Analysis, synthesis and perception of voice quality variations among 
-female and male talkers" D.H. Klatt and L.C. Klatt JASA 87(2) February 1990.
-
-Flutter is added by applying a quasi-random element constructed from three
-slowly varying sine waves.
-*/
-
+/** @brief Add F0 flutter.
+  *
+  * See "Analysis, synthesis and perception of voice quality variations among
+  * female and male talkers" D.H. Klatt and L.C. Klatt JASA 87(2) February 1990.
+  *
+  * Flutter is added by applying a quasi-random element constructed from three
+  * slowly varying sine waves.
+  */
 static void flutter(klatt_global_ptr globals, klatt_frame_ptr frame)
 {
   static int time_count;
@@ -123,15 +102,8 @@ static void flutter(klatt_global_ptr globals, klatt_frame_ptr frame)
   time_count++;
 }
 
-
-
-/*
-function SAMPLED_SOURCE
-
-Allows the use of a glottal excitation waveform sampled from a real
-voice.
-*/
-
+/** @brief Allows the use of a glottal excitation waveform sampled from a real voice.
+  */
 static float sampled_source(klatt_global_ptr globals)
 {
   int itemp;
@@ -167,16 +139,8 @@ static float sampled_source(klatt_global_ptr globals)
   return(result);
 }
 
-
-
-
-/* 
-function PARWAVE
-
-Converts synthesis parameters to a waveform.
-*/
-
-
+/** @brief Converts synthesis parameters to a waveform.
+  */
 void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 {
   float temp;
@@ -442,16 +406,10 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
   }
 }
 
-
-
-
-/*
-function PARWAVE_INIT
-
-Initialises all parameters used in parwave, sets resonator internal memory
-to zero.
-*/
-
+/** @brief Initialise all parameters used in parwave.
+  *
+  * This sets resonator internal memory to zero.
+  */
 void parwave_init(klatt_global_ptr globals)
 {
   globals->FLPhz = (950 * globals->samrate) / 10000;
@@ -507,13 +465,8 @@ void parwave_init(klatt_global_ptr globals)
   globals->rout.p2=0;
 }
 
-
-/* 
-function FRAME_INIT
-
-Use parameters from the input frame to set up resonator coefficients.
-*/
-
+/** @brief Use parameters from the input frame to set up resonator coefficients.
+  */
 static void frame_init(klatt_global_ptr globals, klatt_frame_ptr frame)
 {
   float amp_parF1;
@@ -600,18 +553,13 @@ static void frame_init(klatt_global_ptr globals, klatt_frame_ptr frame)
   setabc((long)0.0,(long)(globals->samrate/2),&(globals->rout),globals);
 }
 
-
-
-/*
-function IMPULSIVE_SOURCE
-
-Generate a low pass filtered train of impulses as an approximation of 
-a natural excitation waveform. Low-pass filter the differentiated impulse 
-with a critically-damped second-order filter, time constant proportional 
-to Kopen.
-*/
-
-
+/** @brief Generate the glottal waveform from an impulse source.
+  *
+  * Generate a low pass filtered train of impulses as an approximation of a
+  * natural excitation waveform. Low-pass filter the differentiated impulse
+  * with a critically-damped second-order filter, time constant proportional
+  * to Kopen.
+  */
 static float impulsive_source(klatt_global_ptr globals)
 {
   static float doublet[] = {0.0,13000000.0,-13000000.0};
@@ -629,15 +577,12 @@ static float impulsive_source(klatt_global_ptr globals)
   return(resonator(&(globals->rgl),vwave));
 }
 
-
-
-/*
-function NATURAL_SOURCE
-
-Vwave is the differentiated glottal flow waveform, there is a weak
-spectral zero around 800 Hz, magic constants a,b reset pitch synchronously.
-*/
-
+/** @brief Generate the glottal waveform from a natural (sampled) source.
+  *
+  * Vwave is the differentiated glottal flow waveform, there is a weak
+  * spectral zero around 800 Hz, magic constants a,b reset pitch
+  * synchronously.
+  */
 static float natural_source(klatt_global_ptr globals)
 {
   float lgtemp;
@@ -658,47 +603,41 @@ static float natural_source(klatt_global_ptr globals)
   }
 }
 
-
-
-
-
-/*
-function PITCH_SYNC_PAR_RESET
-
-Reset selected parameters pitch-synchronously.
-
-
-Constant B0 controls shape of glottal pulse as a function
-of desired duration of open phase N0
-(Note that N0 is specified in terms of 40,000 samples/sec of speech)
-
-Assume voicing waveform V(t) has form: k1 t**2 - k2 t**3
-
-  If the radiation characterivative, a temporal derivative
-  is folded in, and we go from continuous time to discrete
-  integers n:  dV/dt = vwave[n]
-                        = sum over i=1,2,...,n of { a - (i * b) }
-                        = a n  -  b/2 n**2
-
-  where the  constants a and b control the detailed shape
-  and amplitude of the voicing waveform over the open
-  potion of the voicing cycle "nopen".
-
-  Let integral of dV/dt have no net dc flow --> a = (b * nopen) / 3
- 
-  Let maximum of dUg(n)/dn be constant --> b = gain / (nopen * nopen)
-  meaning as nopen gets bigger, V has bigger peak proportional to n
-
-  Thus, to generate the table below for 40 <= nopen <= 263:
-  
-  B0[nopen - 40] = 1920000 / (nopen * nopen)
-*/
-
+/** @brief Reset selected parameters pitch-synchronously.
+  */
 static void pitch_synch_par_reset(klatt_global_ptr globals, klatt_frame_ptr frame)
 {
   long temp;
   float temp1;
   static long skew;
+  /*
+   * Constant B0 controls shape of glottal pulse as a function
+   * of desired duration of open phase N0. (Note that N0 is
+   * specified in terms of 40,000 samples/sec of speech.)
+   *
+   * Assume voicing waveform V(t) has form: k1 t**2 - k2 t**3.
+   *
+   * If the radiation characterivative, a temporal derivative
+   * is folded in, and we go from continuous time to discrete
+   * integers n:
+   *
+   *     dV/dt = vwave[n]
+   *           = sum over i=1,2,...,n of { a - (i * b) }
+   *           = a n  -  b/2 n**2
+   *
+   * where the  constants a and b control the detailed shape
+   * and amplitude of the voicing waveform over the open
+   * potion of the voicing cycle "nopen".
+   *
+   * Let integral of dV/dt have no net dc flow --> a = (b * nopen) / 3.
+   *
+   * Let maximum of dUg(n)/dn be constant --> b = gain / (nopen * nopen)
+   * meaning as nopen gets bigger, V has bigger peak proportional to n.
+   *
+   * Thus, to generate the table below for 40 <= nopen <= 263:
+   *
+   *     B0[nopen - 40] = 1920000 / (nopen * nopen)
+   */
   static short B0[224] = 
   {
     1200,1142,1088,1038, 991, 948, 907, 869, 833, 799, 768, 738, 710, 683, 658,
@@ -846,19 +785,11 @@ static void pitch_synch_par_reset(klatt_global_ptr globals, klatt_frame_ptr fram
   }
 }
 
-
-
-/*
-function SETABC
-
-Convert formant freqencies and bandwidth into resonator difference 
-equation constants.
-
-    f   Frequency of resonator in Hz
-    bw  Frequency of resonator in Hz
-*/
-
-
+/** Convert formant freqencies and bandwidth into resonator difference equation constants.
+  *
+  * @param f   Frequency of resonator in Hz
+  * @param bw  Frequency of resonator in Hz
+  */
 static void setabc(long int f, long int bw, resonator_ptr rp, klatt_global_ptr globals)
 {
  float r;
@@ -883,17 +814,11 @@ static void setabc(long int f, long int bw, resonator_ptr rp, klatt_global_ptr g
  rp->a = 1.0 - rp->b - rp->c;
 }
 
-
-/*
-function SETZEROABC
-
-Convert formant freqencies and bandwidth into anti-resonator difference 
-equation constants.
-
-    f   Frequency of resonator in Hz
-    bw  Frequency of resonator in Hz
-*/
-
+/** @brief Convert formant freqencies and bandwidth into anti-resonator difference equation constants.
+  *
+  * @param f   Frequency of resonator in Hz
+  * @param bw  Frequency of resonator in Hz
+  */
 static void setzeroabc(long int f, long int bw, resonator_ptr rp, klatt_global_ptr globals)
 {
  float r;
@@ -932,16 +857,13 @@ static void setzeroabc(long int f, long int bw, resonator_ptr rp, klatt_global_p
  rp->b *= -rp->a;
 }
 
-
-/* 
-function GEN_NOISE
-
-Random number generator (return a number between -8191 and +8191) 
-Noise spectrum is tilted down by soft low-pass filter having a pole near 
-the origin in the z-plane, i.e. output = input + (0.75 * lastoutput) 
-*/
-
-
+/** @brief Random number (noise) generator.
+  *
+  * @return a number between -8191 and +8191.
+  *
+  * Noise spectrum is tilted down by soft low-pass filter having a pole near 
+  * the origin in the z-plane, i.e. output = input + (0.75 * lastoutput) 
+  */
 static float gen_noise(float noise, klatt_global_ptr globals)
 {
   long temp;
@@ -956,26 +878,21 @@ static float gen_noise(float noise, klatt_global_ptr globals)
   return(noise);
 }
 
-
-/*
-function DBTOLIN
-
-Convert from decibels to a linear scale factor
-
-
-Conversion table, db to linear, 87 dB --> 32767
-                                86 dB --> 29491 (1 dB down = 0.5**1/6)
-                                 ...
-                                81 dB --> 16384 (6 dB down = 0.5)
-                                 ...
-                                 0 dB -->     0
- 
-The just noticeable difference for a change in intensity of a vowel
-is approximately 1 dB.  Thus all amplitudes are quantized to 1 dB
-steps.
-*/
-
-
+/** @brief Convert from decibels to a linear scale factor.
+  *
+  * Conversion table, db to linear:
+  *
+  *     87 dB --> 32767
+  *     86 dB --> 29491 (1 dB down = 0.5**1/6)
+  *     ...
+  *     81 dB --> 16384 (6 dB down = 0.5)
+  *     ...
+  *     0 dB -->      0
+  *
+  * The just noticeable difference for a change in intensity of a vowel
+  * is approximately 1 dB.  Thus all amplitudes are quantized to 1 dB
+  * steps.
+  */
 static float DBtoLIN(long dB)
 {
   float lgtemp;
