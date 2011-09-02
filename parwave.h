@@ -1,11 +1,25 @@
-/*
-file: PARWAVE.H
-date: 15/11/93
-version: 3.0
-
-Contains structure definitions used in parwave.c
-*/
-
+/* An implementation of a Klatt cascade-parallel formant synthesizer.
+ *
+ * (c) 1993,94 Jon Iles and Nick Ing-Simmons
+ *
+ * A re-implementation in C of Dennis Klatt's Fortran code, originally by:
+ *
+ *     Jon Iles (j.p.iles@cs.bham.ac.uk)
+ *     Nick Ing-Simmons (nicki@lobby.ti.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #define CASCADE_PARALLEL 1         /* Type of synthesis model */
 #define ALL_PARALLEL     2 

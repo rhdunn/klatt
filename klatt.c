@@ -1,41 +1,20 @@
-/*
-title:  KLATT.C
-author: Jon Iles (j.p.iles@cs.bham.ac.uk)
-date: 20/4/94
-version: 3.03
-notes:  
-
-This file contains C code to provide a simple interface to
-Dennis Klatt's parwave function. This function, as the name
-suggests, converts a frame of parameters into a waveform.
-The parwave function itself is a translation of the Dennis's
-original Fortran code, as published in JASA. The code was
-posted to comp.speech in 1993, and has been updated by me
-to fix a number of bugs that had been introduced. Subsequently
-major rewrites have been done by Nick Ing-Simmons to improve 
-efficiency and change the code into a more acceptable ANSI C style, 
-and by me to remove all global variable references, fix bugs and ensure
-portability.
-
-See the README file and man page for more details.
-
-(c) 1993 Jon Iles and Nick Ing-Simmons
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 1, or (at your option)
-any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-*/
-
+/* A command-line interface to the Klatt cascade-parallel formant synthesizer.
+ *
+ * (c) 1993,94 Jon Iles and Nick Ing-Simmons
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
