@@ -41,7 +41,6 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
-#include "proto.h"
 #include "parwave.h"
 #include "getopt.h"
 
@@ -58,11 +57,6 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #define NUMBER_OF_SAMPLES 100
 #define SAMPLE_FACTOR 0.00001
 
-/* function prototypes */
-
-static void usage PROTO((void));
-
-
 /*
 function USAGE
 
@@ -70,7 +64,6 @@ Displays the command line options.
 */
 
 static void usage()
-
 {
   printf("Options...\n");
   printf("-h Displays this message\n");

@@ -146,9 +146,5 @@ typedef struct
 
 /* function prototypes that need to be exported */
 
-void parwave PROTO((klatt_global_ptr,klatt_frame_ptr,int*));
-void parwave_init PROTO((klatt_global_ptr));
-
-
-
-
+void parwave(klatt_global_ptr,klatt_frame_ptr,int*);
+void parwave_init(klatt_global_ptr);

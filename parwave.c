@@ -31,7 +31,6 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "proto.h"
 #include "parwave.h"
 
 #ifdef _MSC_VER
@@ -42,18 +41,18 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 /* function prototypes for functions private to this file */
 
-static void flutter PROTO((klatt_global_ptr,klatt_frame_ptr));
-static float sampled_source PROTO((klatt_global_ptr));
-static float impulsive_source PROTO((klatt_global_ptr));
-static float natural_source PROTO((klatt_global_ptr));
-static void pitch_synch_par_reset PROTO((klatt_global_ptr,klatt_frame_ptr)); 
-static float gen_noise PROTO((float,klatt_global_ptr));
-static float DBtoLIN PROTO((long));
-static void frame_init PROTO((klatt_global_ptr,klatt_frame_ptr)); 
-static float resonator PROTO((resonator_ptr, float));
-static float antiresonator PROTO((resonator_ptr, float));
-static void setabc PROTO((long,long,resonator_ptr,klatt_global_ptr));
-static void setzeroabc PROTO((long,long,resonator_ptr,klatt_global_ptr));
+static void flutter(klatt_global_ptr,klatt_frame_ptr);
+static float sampled_source(klatt_global_ptr);
+static float impulsive_source(klatt_global_ptr);
+static float natural_source(klatt_global_ptr);
+static void pitch_synch_par_reset(klatt_global_ptr,klatt_frame_ptr);
+static float gen_noise(float,klatt_global_ptr);
+static float DBtoLIN(long);
+static void frame_init(klatt_global_ptr,klatt_frame_ptr);
+static float resonator(resonator_ptr, float);
+static float antiresonator(resonator_ptr, float);
+static void setabc(long,long,resonator_ptr,klatt_global_ptr);
+static void setzeroabc(long,long,resonator_ptr,klatt_global_ptr);
 
 
 
