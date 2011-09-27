@@ -153,8 +153,8 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 
   frame_init(globals,frame);  /* get parameters for next frame of speech */
 
-
-  flutter(globals,frame);  /* add f0 flutter */
+  if (globals->f0_flutter != 0)
+    flutter(globals,frame);  /* add f0 flutter */
 
 
   /* MAIN LOOP, for each output sample of current frame: */
