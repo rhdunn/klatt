@@ -3,3 +3,21 @@
 
 *.o
 klatt
+
+# autotool output
+
+.deps/
+Makefile.in
+Makefile
+aclocal.m4
+autogen.sh
+autom4te.cache/
+config.h
+config.h.in
+config.log
+config.status
+configure
+depcomp
+install-sh
+missing
+stamp-h1
