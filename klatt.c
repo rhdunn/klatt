@@ -82,7 +82,6 @@ void main(int argc, char **argv)
   int nmspf_def;
   klatt_global_ptr globals;
   klatt_frame_ptr frame;
-  long *frame_ptr;
   unsigned char high_byte;
   unsigned char low_byte;
   flag raw_flag;
@@ -269,23 +268,35 @@ void main(int argc, char **argv)
   icount=0;
   done_flag = FALSE;
   parwave_init(globals);
-  frame_ptr = (long*) frame;
 
   while(done_flag == FALSE)
   {
-    for (par_count = 0; par_count < NPAR; ++par_count)
-    {
-      value = 0;
+    result = fscanf(infp,
+      "%ld %ld %ld %ld %ld %ld %ld %ld %ld %ld " /* 0x */
+      "%ld %ld %ld %ld %ld %ld %ld %ld %ld %ld " /* 1x */
+      "%ld %ld %ld %ld %ld %ld %ld %ld %ld %ld " /* 2x */
+      "%ld %ld %ld %ld %ld %ld %ld %ld %ld %ld", /* 3x */
+      &frame->F0hz10, &frame->AVdb,
+      &frame->F1hz,   &frame->B1hz,
+      &frame->F2hz,   &frame->B2hz,
+      &frame->F3hz,   &frame->B3hz,
+      &frame->F4hz,   &frame->B4hz,
+      &frame->F5hz,   &frame->B5hz,
+      &frame->F6hz,   &frame->B6hz,
+      &frame->FNZhz,  &frame->BNZhz,
+      &frame->FNPhz,  &frame->BNPhz,
+      &frame->ASP,    &frame->Kopen,
+      &frame->Aturb,  &frame->TLTdb,
+      &frame->AF,     &frame->Kskew,
+      &frame->A1,     &frame->B1phz,
+      &frame->A2,     &frame->B2phz,
+      &frame->A3,     &frame->B3phz,
+      &frame->A4,     &frame->B4phz,
+      &frame->A5,     &frame->B5phz,
+      &frame->A6,     &frame->B6phz,
+      &frame->ANP,    &frame->AB,
+      &frame->AVpdb,  &frame->Gain0);
 
-#ifdef __BORLANDC__
-      result = fscanf(infp,"%ld",&value);
-#else
-      result = fscanf(infp,"%i",(int*)&value);
-#endif
-
-      frame_ptr[par_count] = value;
-    }
-    
     if(result == EOF)
     {
       done_flag = TRUE;
