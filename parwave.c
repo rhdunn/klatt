@@ -270,53 +270,21 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 
     if(globals->synthesis_model != ALL_PARALLEL)
     {
+      casc_next_in = glotout;
       casc_next_in = antiresonator(&(globals->rnz),glotout);
       casc_next_in = resonator(&(globals->rnpc),casc_next_in);
 
-      /* Do not use unless sample rate >= 16000 */
-
-      if (globals->nfcascade >= 8) 
+      switch (globals->nfcascade)
       {
-	casc_next_in= resonator(&(globals->r8c),casc_next_in);
-      }
-
-      /* Do not use unless sample rate >= 16000 */
-
-      if (globals->nfcascade >= 7) 
-      {
-	casc_next_in = resonator(&(globals->r7c),casc_next_in);          
-      }
-
-      /* Do not use unless long vocal tract or sample rate increased */
-
-      if (globals->nfcascade >= 6) 
-      {
-	casc_next_in = resonator(&(globals->r6c),casc_next_in);
-      }
-
-      if (globals->nfcascade >= 5) 
-      {
-	casc_next_in = resonator(&(globals->r5c),casc_next_in);
-      }
-
-      if (globals->nfcascade >= 4) 
-      {
-	casc_next_in = resonator(&(globals->r4c),casc_next_in);
-      }
-
-      if (globals->nfcascade >= 3) 
-      {
-	casc_next_in = resonator(&(globals->r3c),casc_next_in);
-      }
-
-      if (globals->nfcascade >= 2) 
-      {
-	casc_next_in = resonator(&(globals->r2c),casc_next_in);
-      }
-
-      if (globals->nfcascade >= 1) 
-      {
-	out = resonator(&(globals->r1c),casc_next_in);
+      default:
+      case 8:  casc_next_in = resonator(&(globals->r8c),casc_next_in); /* Do not use unless sample rate >= 16000 */
+      case 7:  casc_next_in = resonator(&(globals->r7c),casc_next_in); /* Do not use unless sample rate >= 16000 */
+      case 6:  casc_next_in = resonator(&(globals->r6c),casc_next_in);
+      case 5:  casc_next_in = resonator(&(globals->r5c),casc_next_in);
+      case 4:  casc_next_in = resonator(&(globals->r4c),casc_next_in);
+      case 3:  casc_next_in = resonator(&(globals->r3c),casc_next_in);
+      case 2:  casc_next_in = resonator(&(globals->r2c),casc_next_in);
+      case 1:  out          = resonator(&(globals->r1c),casc_next_in);
       }
     }
     else
