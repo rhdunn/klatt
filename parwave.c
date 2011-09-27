@@ -292,10 +292,6 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 
     /* Excite parallel F1 and FNP by voicing waveform */
 
-    sourc = par_glotout;        /* Source is voicing plus aspiration */
-
-
-
     /*  
       Standard parallel vocal tract Formants F6,F5,F4,F3,F2, 
       outputs added with alternating sign. Sound sourc for other 
@@ -303,8 +299,8 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
       voicing waveform. 
     */
 
-    out += resonator(&(globals->r1p),sourc);
-    out += resonator(&(globals->rnpp),sourc);
+    out += resonator(&(globals->r1p),par_glotout);
+    out += resonator(&(globals->rnpp),par_glotout);
 
     sourc = frics + par_glotout - glotlast;
     glotlast = par_glotout;
