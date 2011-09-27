@@ -139,17 +139,7 @@ static float sampled_source(klatt_global_ptr globals)
   */
 void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 {
-  float out;
-  long n4;
-  float frics;
-  float glotout;
-  float aspiration;
-  float par_glotout;
-  static float noise;
-  static float voice;
-  static float vlast;
   static float glotlast;
-  static float sourc;
 
   frame_init(globals,frame);  /* get parameters for next frame of speech */
 
@@ -161,6 +151,16 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 
   for (globals->ns=0;globals->ns<globals->nspfr;globals->ns++) 
   {
+    float noise;
+    long n4;
+    float out;
+    float frics;
+    float glotout;
+    float aspiration;
+    float par_glotout;
+    float voice;
+    float vlast;
+    float sourc;
 
     /* Get low-passed random number for aspiration and frication noise */
 
