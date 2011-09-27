@@ -154,7 +154,7 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
   {
     float noise;
     long n4;
-    float out;
+    float out = 0.0;
     float frics;
     float glotout;
     float aspiration;
@@ -279,14 +279,7 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
       case 3:  casc_next_in = resonator(&(globals->r3c),casc_next_in);
       case 2:  casc_next_in = resonator(&(globals->r2c),casc_next_in);
       case 1:  out          = resonator(&(globals->r1c),casc_next_in);
-               break;
-      default: out          = 0.0;
       }
-    }
-    else
-    {
-      /* we are not using the cascade tract, set out to zero */
-      out = 0; 
     }
 
     /* Excite parallel F1 and FNP by voicing waveform */
