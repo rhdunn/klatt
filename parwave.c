@@ -377,14 +377,6 @@ void parwave_init(klatt_global_ptr globals)
   */
 static void frame_init(klatt_global_ptr globals, klatt_frame_ptr frame)
 {
-  float amp_parF1;
-  float amp_parFNP;
-  float amp_parF2;
-  float amp_parF3;
-  float amp_parF4;
-  float amp_parF5;
-  float amp_parF6;
-
   globals->original_f0 = frame->F0hz10 / 10;
 
   frame->AVdb  = frame->AVdb - 7;
@@ -396,13 +388,6 @@ static void frame_init(klatt_global_ptr globals, klatt_frame_ptr frame)
   globals->amp_aspir = DBtoLIN(frame->ASP) * 0.05;
   globals->amp_frica = DBtoLIN(frame->AF) * 0.25;
   globals->par_amp_voice = DBtoLIN(frame->AVpdb);
-  amp_parF1 = DBtoLIN(frame->A1) * 0.4;
-  amp_parF2 = DBtoLIN(frame->A2) * 0.15;
-  amp_parF3 = DBtoLIN(frame->A3) * 0.06;
-  amp_parF4 = DBtoLIN(frame->A4) * 0.04;
-  amp_parF5 = DBtoLIN(frame->A5) * 0.022;
-  amp_parF6 = DBtoLIN(frame->A6) * 0.03;
-  amp_parFNP = DBtoLIN(frame->ANP) * 0.6;
   globals->amp_bypas = DBtoLIN(frame->AB) * 0.05;
   frame->Gain0 = frame->Gain0 - 3;
   if (frame->Gain0 <= 0) 
@@ -448,19 +433,19 @@ static void frame_init(klatt_global_ptr globals, klatt_frame_ptr frame)
   /* Set coefficients of parallel resonators, and amplitude of outputs */
 
   setabc(frame->F1hz,frame->B1phz,&(globals->r1p),globals);
-  globals->r1p.a *= amp_parF1;
+  globals->r1p.a *= DBtoLIN(frame->A1) * 0.4;
   setabc(frame->FNPhz,frame->BNPhz,&(globals->rnpp),globals);
-  globals->rnpp.a *= amp_parFNP;
+  globals->rnpp.a *= DBtoLIN(frame->ANP) * 0.6;
   setabc(frame->F2hz,frame->B2phz,&(globals->r2p),globals);
-  globals->r2p.a *= amp_parF2;
+  globals->r2p.a *= DBtoLIN(frame->A2) * 0.15;
   setabc(frame->F3hz,frame->B3phz,&(globals->r3p),globals);
-  globals->r3p.a *= amp_parF3;
+  globals->r3p.a *= DBtoLIN(frame->A3) * 0.06;
   setabc(frame->F4hz,frame->B4phz,&(globals->r4p),globals);
-  globals->r4p.a *= amp_parF4;
+  globals->r4p.a *= DBtoLIN(frame->A4) * 0.04;
   setabc(frame->F5hz,frame->B5phz,&(globals->r5p),globals);
-  globals->r5p.a *= amp_parF5;
+  globals->r5p.a *= DBtoLIN(frame->A5) * 0.022;
   setabc(frame->F6hz,frame->B6phz,&(globals->r6p),globals);
-  globals->r6p.a *= amp_parF6;
+  globals->r6p.a *= DBtoLIN(frame->A6) * 0.03;
   
   /* output low-pass filter */
 
