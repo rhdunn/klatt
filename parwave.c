@@ -321,34 +321,6 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
     out = outbypas - out;
 
 
-    if (globals->outsl != 0) 
-    {
-      switch(globals->outsl)
-      {
-      case 1:
-	out = voice;
-	break;
-      case 2:
-	out = aspiration;
-	break;
-      case 3: 
-	out = frics;
-	break;
-      case 4:
-	out = glotout;
-	break;
-      case 5:
-	out = par_glotout;
-	break;
-      case 6:
-	out = outbypas;
-	break;
-      case 7:
-	out = sourc;
-	break;
-      }
-    }
-
     out = resonator(&(globals->rout),out);
 
     temp = out * globals->amp_gain0;  /* Convert back to integer */

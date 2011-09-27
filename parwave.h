@@ -65,7 +65,6 @@ typedef struct
 typedef struct
 {
   klatt_model_t synthesis_model; /* cascade-parallel or all-parallel */
-  flag outsl;       /* Output waveform selector                      */
   long samrate;     /* Number of output samples per second           */
   long FLPhz ;      /* Frequeny of glottal downsample low-pass filter */
   long BLPhz ;      /* Bandwidth of glottal downsample low-pass filter */

@@ -46,7 +46,6 @@ static void usage()
   printf("-o <outfile> sets output filename\n");
   printf("   If output filename not specified, stdout is used\n");
   printf("-q quiet - print no messages\n");
-  printf("-t <n> select output waveform\n");
   printf("-c select cascade-parallel configuration\n");
   printf("   Parallel configuration is default\n");
   printf("-n <number> Number of formants in cascade branch.\n");
@@ -145,11 +144,10 @@ void main(int argc, char **argv)
   globals->sample_factor = (float) SAMPLE_FACTOR;
   nmspf_def = 10;
   globals->nfcascade = 0;
-  globals->outsl = 0;
   globals->f0_flutter = 0;
   raw_flag = FALSE;
 
-  while((c = getopt(argc,argv,"i:o:t:s:f:n:F:v:V:qchr:"))!=EOF)
+  while((c = getopt(argc,argv,"i:o:s:f:n:F:v:V:qchr:"))!=EOF)
   {
     switch(c)
     {
@@ -161,9 +159,6 @@ void main(int argc, char **argv)
       break;
     case 'q':
       globals->quiet_flag = TRUE;
-      break;
-    case 't':
-      globals->outsl = (flag) atoi(optarg);
       break;
     case 'c':
       globals->synthesis_model = CASCADE_PARALLEL;
