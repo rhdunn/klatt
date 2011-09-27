@@ -140,7 +140,6 @@ static float sampled_source(klatt_global_ptr globals)
 void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 {
   float temp;
-  float outbypas;
   float out;
   long n4;
   float frics;
@@ -291,7 +290,6 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
       out = 0; 
     }
 
-
     /* Excite parallel F1 and FNP by voicing waveform */
 
     sourc = par_glotout;        /* Source is voicing plus aspiration */
@@ -317,9 +315,7 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
     out = resonator(&(globals->r3p),sourc) - out;
     out = resonator(&(globals->r2p),sourc) - out;
 
-    outbypas = globals->amp_bypas * sourc;
-    out = outbypas - out;
-
+    out = globals->amp_bypas * sourc - out;
 
     out = resonator(&(globals->rout),out);
 
