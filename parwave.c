@@ -146,7 +146,6 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
   float frics;
   float glotout;
   float aspiration;
-  float casc_next_in;
   float par_glotout;
   static float noise;
   static float voice;
@@ -263,19 +262,17 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
     par_glotout += aspiration;
 
 
-    /*  
-      Cascade vocal tract, excited by laryngeal sources.
-      Nasal antiresonator, then formants FNP, F5, F4, F3, F2, F1 
-    */
-
     if(globals->synthesis_model != ALL_PARALLEL)
     {
-      casc_next_in = antiresonator(&(globals->rnz),glotout);
-      casc_next_in = resonator(&(globals->rnpc),casc_next_in);
+      /*
+       * Cascade vocal tract, excited by laryngeal sources.
+       * Nasal antiresonator, then formants FNP, F5, F4, F3, F2, F1
+       */
+      float rnzout = antiresonator(&(globals->rnz),glotout);
+      float casc_next_in = resonator(&(globals->rnpc),rnzout);
 
       switch (globals->nfcascade)
       {
-      default:
       case 8:  casc_next_in = resonator(&(globals->r8c),casc_next_in);
       case 7:  casc_next_in = resonator(&(globals->r7c),casc_next_in);
       case 6:  casc_next_in = resonator(&(globals->r6c),casc_next_in);
@@ -284,6 +281,8 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
       case 3:  casc_next_in = resonator(&(globals->r3c),casc_next_in);
       case 2:  casc_next_in = resonator(&(globals->r2c),casc_next_in);
       case 1:  out          = resonator(&(globals->r1c),casc_next_in);
+               break;
+      default: out          = 0.0;
       }
     }
     else
