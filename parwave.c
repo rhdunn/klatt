@@ -276,8 +276,8 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
       switch (globals->nfcascade)
       {
       default:
-      case 8:  casc_next_in = resonator(&(globals->r8c),casc_next_in); /* Do not use unless sample rate >= 16000 */
-      case 7:  casc_next_in = resonator(&(globals->r7c),casc_next_in); /* Do not use unless sample rate >= 16000 */
+      case 8:  casc_next_in = resonator(&(globals->r8c),casc_next_in);
+      case 7:  casc_next_in = resonator(&(globals->r7c),casc_next_in);
       case 6:  casc_next_in = resonator(&(globals->r6c),casc_next_in);
       case 5:  casc_next_in = resonator(&(globals->r5c),casc_next_in);
       case 4:  casc_next_in = resonator(&(globals->r4c),casc_next_in);
@@ -468,11 +468,17 @@ static void frame_init(klatt_global_ptr globals, klatt_frame_ptr frame)
 
   if (globals->nfcascade >= 8)    
   {
-    setabc(7500,600,&(globals->r8c),globals);
+    if (globals->samrate >= 16000) /* Inside Nyquist rate? */
+      setabc(7500,600,&(globals->r8c),globals);
+    else
+      globals->nfcascade = 6;
   }
   if (globals->nfcascade >= 7)    
   {
-    setabc(6500,500,&(globals->r7c),globals);
+    if (globals->samrate >= 16000) /* Inside Nyquist rate? */
+      setabc(6500,500,&(globals->r7c),globals);
+    else
+      globals->nfcascade = 6;
   }
   if (globals->nfcascade >= 6)    
   {
