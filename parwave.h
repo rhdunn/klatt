@@ -56,8 +56,8 @@ typedef struct
   float a;
   float b;
   float c;
-  float p1;
-  float p2;
+  float p1; /* value at time period |n-1|. */
+  float p2; /* value at time period |n-2| */
 } resonator_t, *resonator_ptr;
 
 /** @brief Parameters, global data and resonators used by the klatt synthesizer.
