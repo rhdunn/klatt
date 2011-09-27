@@ -270,7 +270,6 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 
     if(globals->synthesis_model != ALL_PARALLEL)
     {
-      casc_next_in = glotout;
       casc_next_in = antiresonator(&(globals->rnz),glotout);
       casc_next_in = resonator(&(globals->rnpc),casc_next_in);
 
