@@ -139,7 +139,6 @@ static float sampled_source(klatt_global_ptr globals)
   */
 void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 {
-  float temp;
   float out;
   long n4;
   float frics;
@@ -315,20 +314,12 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 
     out = resonator(&(globals->rout),out);
 
-    temp = out * globals->amp_gain0;  /* Convert back to integer */
+    out = out * globals->amp_gain0;  /* Convert back to integer */
 
+    if (out < -32768.0) out = -32768.0;
+    if (out >  32767.0) out =  32767.0;
 
-    if (temp < -32768.0)
-    {
-      temp = -32768.0;
-    }
-    
-    if (temp >	32767.0)
-    {
-      temp =  32767.0;
-    }
-
-    *output++ = (int) temp;
+    *output++ = (int)out;
   }
 }
 
