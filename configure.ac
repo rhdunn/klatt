@@ -1,5 +1,5 @@
 AC_PREREQ([2.65])
-AC_INIT([Klatt], [3.04], [msclrhd@gmail.com], [klatt], [https://github.com/rhdunn/klatt])
+AC_INIT([Klatt], [3.05], [msclrhd@gmail.com], [klatt], [https://github.com/rhdunn/klatt])
 AM_INIT_AUTOMAKE()
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES])
