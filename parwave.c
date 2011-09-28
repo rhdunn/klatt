@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <limits.h>
 #include "parwave.h"
 
 #ifdef _MSC_VER
@@ -309,8 +310,8 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 
     out = out * globals->amp_gain0;  /* Convert back to integer */
 
-    if (out < -32768.0) out = -32768.0;
-    if (out >  32767.0) out =  32767.0;
+    if (out < SHRT_MIN) out = SHRT_MIN;
+    if (out > SHRT_MAX) out = SHRT_MAX;
 
     *output++ = (int)out;
   }
