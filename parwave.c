@@ -708,25 +708,19 @@ static void setzeroabc(long int f, long int bw, resonator_ptr rp, klatt_global_p
 {
  float r;
 
- f = -f;
-
- if(f>=0)
- {
-   f = -1;
- }
-
-/* First compute ordinary resonator coefficients */
-
+ /* First compute ordinary resonator coefficients */
  r = exp(-M_PI / globals->samrate * bw);
  rp->c = -(r * r);
- rp->b = r * cos(2.0 * M_PI / globals->samrate * f) * 2.0;
+ rp->b = r * cos(2.0 * M_PI / globals->samrate * -f) * 2.0;
  rp->a = 1.0 - rp->b - rp->c;
 
-/* Now convert to antiresonator coefficients (a'=1/a, b'=b/a, c'=c/a) */
-
- rp->a = 1.0 / rp->a;
- rp->c *= -rp->a;
- rp->b *= -rp->a;
+ if (f != 0) /* prevent a', b' and c' going to INF! */
+ {
+  /* Now convert to antiresonator coefficients (a'=1/a, b'=b/a, c'=c/a) */
+  rp->a = 1.0 / rp->a;
+  rp->c *= -rp->a;
+  rp->b *= -rp->a;
+ }
 }
 
 /** @brief Random number (noise) generator.
