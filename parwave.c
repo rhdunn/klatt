@@ -591,7 +591,7 @@ static void pitch_synch_par_reset(klatt_global_ptr globals, klatt_frame_ptr fram
       globals->nopen = globals->T0 - 2;
       if(globals->quiet_flag == FALSE)
       {
-	printf("Warning: glottal open period cannot exceed T0, truncated\n");
+	fprintf(stderr, "Warning: glottal open period cannot exceed T0, truncated\n");
       }
     }
 
@@ -601,8 +601,8 @@ static void pitch_synch_par_reset(klatt_global_ptr globals, klatt_frame_ptr fram
       globals->nopen = 40;    
       if(globals->quiet_flag == FALSE)
       {
-	printf("Warning: minimum glottal open period is 10 samples.\n");
-	printf("truncated, nopen = %i\n",(int)globals->nopen);
+	fprintf(stderr, "Warning: minimum glottal open period is 10 samples.\n");
+	fprintf(stderr, "truncated, nopen = %i\n",(int)globals->nopen);
       }
     }
 
@@ -634,8 +634,8 @@ static void pitch_synch_par_reset(klatt_global_ptr globals, klatt_frame_ptr fram
     {
       if(globals->quiet_flag == FALSE)
       {
-	printf("Kskew duration=%d > glottal closed period=%d, truncate\n",
-	       (int)frame->Kskew, (int)(globals->T0 - globals->nopen));
+	fprintf(stderr, "Kskew duration=%d > glottal closed period=%d, truncate\n",
+	        (int)frame->Kskew, (int)(globals->T0 - globals->nopen));
       }
       frame->Kskew = temp;
     }

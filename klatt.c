@@ -241,7 +241,6 @@ void main(int argc, char **argv)
   if(strcmp(outfile,"")==0)
   {
     outfp = stdout;
-    globals->quiet_flag = TRUE;
   }
   else
   {
@@ -307,8 +306,9 @@ void main(int argc, char **argv)
 
       if(globals->quiet_flag == FALSE)
       {
-	printf("\rFrame %i",icount);
 	fflush(stdout);
+	fprintf(stderr, "\rFrame %i",icount);
+	fflush(stderr);
       }
 
       for (isam = 0; isam < globals->nspfr; ++ isam)
@@ -348,6 +348,6 @@ void main(int argc, char **argv)
 
   if(globals->quiet_flag == FALSE)
   {
-    printf("\nDone\n");
+    fprintf(stderr, "\nDone\n");
   }
 }
