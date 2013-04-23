@@ -41,7 +41,7 @@ static float sampled_source(klatt_global_ptr);
 static float impulsive_source(klatt_global_ptr);
 static float natural_source(klatt_global_ptr);
 static void pitch_synch_par_reset(klatt_global_ptr,klatt_frame_ptr);
-static float gen_noise(float,klatt_global_ptr);
+static float gen_noise(klatt_global_ptr);
 static float DBtoLIN(long);
 static void frame_init(klatt_global_ptr,klatt_frame_ptr);
 static float resonator(resonator_ptr, float);
@@ -165,7 +165,7 @@ void parwave(klatt_global_ptr globals, klatt_frame_ptr frame, int *output)
 
     /* Get low-passed random number for aspiration and frication noise */
 
-    noise = gen_noise(noise,globals);
+    noise = gen_noise(globals);
 
     /*    
       Amplitude modulate noise (reduce noise amplitude during
@@ -731,7 +731,7 @@ static void setzeroabc(long int f, long int bw, resonator_ptr rp, klatt_global_p
   * Noise spectrum is tilted down by soft low-pass filter having a pole near 
   * the origin in the z-plane, i.e. output = input + (0.75 * lastoutput) 
   */
-static float gen_noise(float noise, klatt_global_ptr globals)
+static float gen_noise(klatt_global_ptr globals)
 {
   long temp;
   static float nlast;
@@ -739,10 +739,9 @@ static float gen_noise(float noise, klatt_global_ptr globals)
   temp = (long) getrandom(-8191,8191);
   globals->nrand = (long) temp;
 
-  noise = globals->nrand + (0.75 * nlast);
-  nlast = noise;
+  nlast = globals->nrand + (0.75 * nlast);
 
-  return(noise);
+  return(nlast);
 }
 
 /** @brief Convert from decibels to a linear scale factor.
