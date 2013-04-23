@@ -1,5 +1,6 @@
 /* A command-line interface to the Klatt cascade-parallel formant synthesizer.
  *
+ * Copyright (C) 2013 Reece H. Dunn
  * (c) 1993,94 Jon Iles and Nick Ing-Simmons
  *
  * This program is free software: you can redistribute it and/or modify
