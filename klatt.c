@@ -74,11 +74,9 @@ int main(int argc, char **argv)
   FILE *outfp;
   int result;
   flag done_flag;
-  long value;
   int *iwave;
   int isam;
   int icount;
-  int par_count;   
   int nmspf_def;
   klatt_global_ptr globals;
   klatt_frame_ptr frame;
