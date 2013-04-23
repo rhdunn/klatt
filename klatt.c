@@ -64,7 +64,7 @@ static void usage()
 }
 
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
   extern char *optarg;
   char c;
@@ -350,4 +350,6 @@ void main(int argc, char **argv)
   {
     fprintf(stderr, "\nDone\n");
   }
+
+  return EXIT_SUCCESS;
 }
