@@ -194,7 +194,7 @@ void main(int argc, char **argv)
 
   globals->nspfr = (globals->samrate * nmspf_def) / 1000;
 
-  if(strcmp(samples_file,"")!=0)
+  if(*samples_file)
   {
     infp = fopen(samples_file,"r");
 
@@ -224,7 +224,7 @@ void main(int argc, char **argv)
   }
 
 
-  if(strcmp(infile,"")==0)
+  if(!*infile)
   {
     infp=stdin;
   }
@@ -238,7 +238,7 @@ void main(int argc, char **argv)
     }
   }
 
-  if(strcmp(outfile,"")==0)
+  if(!*outfile)
   {
     outfp = stdout;
   }
@@ -336,12 +336,12 @@ void main(int argc, char **argv)
     }
   }
 
-  if(strcmp(infile,"")!=0)
+  if(*infile)
   {
     fclose(infp);
   }
 
-  if(strcmp(outfile,"")!=0)
+  if(*outfile)
   {
     fclose(outfp);
   }
