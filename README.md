@@ -1,4 +1,4 @@
-# Klatt Cascade-Parallel Formant Synthesizer v 3.03 (April 1994)
+# Klatt Cascade-Parallel Formant Synthesizer
 
 Jon Iles           j.p.iles@cs.bham.ac.uk
 Nick Ing-Simmons   nicki@lobby.ti.com
