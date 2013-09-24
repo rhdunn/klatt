@@ -1,11 +1,9 @@
-Klatt Cascade-Parallel Formant Synthesizer v 3.03 (April 1994)
---------------------------------------------------------------
+# Klatt Cascade-Parallel Formant Synthesizer v 3.03 (April 1994)
 
 Jon Iles           j.p.iles@cs.bham.ac.uk
 Nick Ing-Simmons   nicki@lobby.ti.com
 
-History
--------
+## History
 
 This file contains a version of the Klatt Cascade-Parallel Formant
 Speech Synthesizer. The software for this synthesizer was originally
@@ -19,9 +17,7 @@ original Fortran, into C, by Dennis Klatt. In terms of the two
 articles referred to above, this version seems to be the mid point of the
 development between the two systems described.
 
-
-Modifications
--------------
+## Modifications
 
 The main part of the code in this directory was posted to comp.speech
 in early 1993 as part of a crude text to speech conversion system. The
@@ -86,8 +82,7 @@ Microsoft C 7.0 (tested) and Borland C (untested).
 14. Modified random number generation for noise production as
 previously it was dependent on the size of the "long" type.
 
-Input File Format
------------------
+## Input File Format
 
 The input file consists of a series of parameter frames. Each frame of
 parameters (usually) represents 10ms of audio output, although this
@@ -188,10 +183,7 @@ avp	Amplitude of voicing for the parallel branch, 0-70 dB.
 
 gain  	Overall gain in dB range 0-80.
 
-
-
-Command Line Options
---------------------
+## Command Line Options
 
 -h Displays a help message.
 
@@ -232,9 +224,7 @@ Command Line Options
 -F <percent> percentage of f0 flutter
    Default is 0
 
-
-Example Parameter File
-----------------------
+## Example Parameter File
 
 Some example parameter files for a short segments of speech are included in
 this distribution. e.g. file called example1.par. Use the following
@@ -260,9 +250,7 @@ as the sampling rate is being halved and the number of bits per sample
 is being halved. Ideally output should be at 16kHz with 16 bits per
 sample. 
 
-
-Notes
------
+## Notes
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -280,9 +268,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 Bug reports, comments etc. to j.p.iles@cs.bham.ac.uk
 
-
-References
-----------
+## References
 
 (1) @article{klatt1980,
      AUTHOR = {Klatt,D.H.},  
@@ -315,6 +301,3 @@ MA  02139.
 Fax: (617) 225-0470
 Tel: (617) 225-2442
 e-mail sensimetrics@sens.com
-
-
-
