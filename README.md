@@ -1,22 +1,27 @@
 # Klatt Cascade-Parallel Formant Synthesizer
 
-Jon Iles           j.p.iles@cs.bham.ac.uk
-Nick Ing-Simmons   nicki@lobby.ti.com
+- [Modifications](#modifications)
+- [Input File Format](#input-file-format)
+- [Command Line Options](#command-line-options)
+- [Example Parameter File](#example-parameter-file)
+- [Bugs](#bugs)
+- [License Information](#license-information)
+- [References](#references)
 
-## History
+----------
 
-This file contains a version of the Klatt Cascade-Parallel Formant
-Speech Synthesizer. The software for this synthesizer was originally
-described in <a href="#klatt1980">Klatt1980</a> and an updated version of
-the software was described in <a href="#klatt1990">Klatt1990</a>. The
-most recent version of the software synthesizer as described in
-<a href="#klatt1990">Klatt1990</a> is commercially available from
-Sensimetrics Inc.
+This is an implementation of the Klatt Cascade-Parallel Formant Speech
+Synthesizer. The software for this synthesizer was originally described
+in <a href="#klatt1980">Klatt1980</a> and an updated version of the
+software was described in <a href="#klatt1990">Klatt1990</a>.
 
-The code contained within this directory is a translation of the
-original Fortran, into C, by Dennis Klatt. In terms of the two
-articles referred to above, this version seems to be the mid point of the
-development between the two systems described.
+The code was originally written in Fortran by Dennis Klatt. It was ported
+to C by John Iles and Nick Ing-Simmons upto version 3.04. The code has since
+been modernized and cleaned up to make it easier to build and maintain on
+modern C compilers and systems by Reece H. Dunn.
+
+In terms of the two articles referred to above, this version seems to
+be the mid point of the development between the two systems described.
 
 ## Modifications
 
