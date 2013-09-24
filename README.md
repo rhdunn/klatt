@@ -251,6 +251,11 @@ as the sampling rate is being halved and the number of bits per sample
 is being halved. Ideally output should be at 16kHz with 16 bits per
 sample. 
 
+## Bugs
+
+Report bugs to the [klatt issues](https://github.com/rhdunn/klatt/issues)
+page on GitHub.
+
 ## Notes
 
 This program is free software; you can redistribute it and/or modify
@@ -266,8 +271,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
-Bug reports, comments etc. to j.p.iles@cs.bham.ac.uk
 
 ## References
 
