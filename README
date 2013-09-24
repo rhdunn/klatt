@@ -1,4 +1,0 @@
-An implementation of Dennis Klatt's formant synthesizer.
-
-This is derived from the C port of Dennis Klatt's Fortran code
-by Jon Iles and Nick Ing-Simmons.

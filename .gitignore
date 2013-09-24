@@ -6,6 +6,7 @@ klatt
 
 # autotool output
 
+README
 .deps/
 Makefile.in
 Makefile
