@@ -7,10 +7,11 @@ Nick Ing-Simmons   nicki@lobby.ti.com
 
 This file contains a version of the Klatt Cascade-Parallel Formant
 Speech Synthesizer. The software for this synthesizer was originally
-described in (1) and an updated version of the software
-was described in (2). The most recent version of the software
-synthesizer as described in (2) is commercially available from
-Sensimetrics Inc. (3)
+described in <a href="#klatt1980">Klatt1980</a> and an updated version of
+the software was described in <a href="#klatt1990">Klatt1990</a>. The
+most recent version of the software synthesizer as described in
+<a href="#klatt1990">Klatt1990</a> is commercially available from
+Sensimetrics Inc.
 
 The code contained within this directory is a translation of the
 original Fortran, into C, by Dennis Klatt. In terms of the two
@@ -54,7 +55,7 @@ that used by the software originally posted to the comp.speech news group.
 6. Added command line options to control the parameters that remain
 constant during synthesis.
 
-7. Added F0 flutter control, as described in (2).
+7. Added F0 flutter control, as described in <a href="#klatt1990">Klatt1990</a>.
 
 8. Subsequently the code in parwave was re-written by Nick to improve
 efficiency, and add a more acceptable ANSI style, and generally make
@@ -270,34 +271,9 @@ Bug reports, comments etc. to j.p.iles@cs.bham.ac.uk
 
 ## References
 
-(1) @article{klatt1980,
-     AUTHOR = {Klatt,D.H.},  
-     JOURNAL = {Journal of the Acoustic Society of America},  
-     PAGES = {971--995},  
-     TITLE = {Software for a cascade/parallel formant synthesizer},  
-     VOLUME = {67},
-     NUMBER = {3},
-     MONTH = {March},
-     YEAR =  1980}
-
-
-(2) @Article{klatt1990,
-  author = 	 "Klatt,D.H. and Klatt, L.C.",
-  title = 	 "Analysis, synthesis and perception of voice quality
-		  variations among female and male talkers.",
-  journal = 	 "Journal of the Acoustical Society of America",
-  year = 	 "1990",
-  volume = 	 "87",
-  number = 	 "2",
-  pages = 	 "820--857",
-  month = 	 "February"}
-
-(3) Dr. David Williams  at
-
-Sensimetrics Corporation,
-64 Sidney Street, 
-Cambridge, 
-MA  02139.  
-Fax: (617) 225-0470
-Tel: (617) 225-2442
-e-mail sensimetrics@sens.com
+<dl>
+<dt><a name="klatt1980"></a>Klatt1980</dt>
+<dd>Klatt, D.H., <a href="http://www.fon.hum.uva.nl/david/ma_ssp/2010/Klatt-1980-JAS000971.pdf">Software for a cascade/parallel formant synthesizer</a>. Journal of the Acoustical Society of America, pages 971-995, volume 67, number 3. 1980.</dd>
+<dt><a name="klatt1990"></a>Klatt1990</dt>
+<dd>Klatt, D.H., Klatt, L.C., <a href="http://www.fon.hum.uva.nl/david/ma_ssp/doc/Klatt-1990-JAS000820.pdf">Analysis, synthesis and perception of voice quality variations among female and male talkers</a>. Journal of the Acoustical Society of America, pages 820-857, volume 87, number 2. 1990.</dd>
+</dl>
