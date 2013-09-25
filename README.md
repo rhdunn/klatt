@@ -1,5 +1,8 @@
 # Klatt Cascade-Parallel Formant Synthesizer
 
+- [Build Dependencies](#build-dependencies)
+  - [Debian](#debian)
+- [Building](#building)
 - [Modifications](#modifications)
 - [Input File Format](#input-file-format)
 - [Command Line Options](#command-line-options)
@@ -22,6 +25,29 @@ modern C compilers and systems by Reece H. Dunn.
 
 In terms of the two articles referred to above, this version seems to
 be the mid point of the development between the two systems described.
+
+## Build Dependencies
+
+In order to build Klatt, you need:
+
+1.  a functional autotools system (`make`, `autoconf` and `automake`);
+2.  a functional c compiler.
+
+### Debian
+
+| Dependency | Install                                       |
+|------------|-----------------------------------------------|
+| autotools  | `sudo apt-get install make autoconf automake` |
+| c compiler | `sudo apt-get install gcc`                    |
+
+## Building
+
+Klatt uses a standard autotools build setup. Simply run:
+
+    $ ./autogen.sh
+    $ ./configure --prefix=/usr
+    $ make
+    $ sudo make install
 
 ## Modifications
 
