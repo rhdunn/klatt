@@ -97,138 +97,66 @@ frame are described below. To avoid confusion, note that the cascade
 and parallel branch of the synthesizer duplicate some of the control
 parameters. 
 
-f0	This is the fundamental frequency (pitch) of the utterance
-	in this case it is specified in steps of 0.1 Hz, hence 100Hz
-	will be represented by a value of 1000.
-
-av    	Amplitude of voicing for the cascade branch of the
-	synthesizer in dB0. Range 0-70, value usually 60 for a vowel sound.
-
-f1    	First formant frequency in 200-1300 Hz.
-
-b1    	Cascade branch bandwidth of first formant in the range 40-1000 Hz. 
-
-f2     	Second formant frequency in the range 550 - 3000 Hz.	
-
-b2      Cascade branch bandwidth of second  formant in the range 40-1000 Hz. 
-
-f3      Third formant frequency in the range 1200-4999 Hz.
-
-b3      Cascade branch bandwidth of third formant in the range 40-1000 Hz. 
-
-f4      Fourth formant frequency in 1200-4999 Hz.
-
-b4      Cascade branch bandwidth of fourth formant in the range 40-1000 Hz. 
-
-f5      Fifth formant frequency in the range 1200-4999 Hz.
-
-b5      Cascade branch bandwidth of fifth formant in the range 40-1000 Hz. 
-
-f6      Sixth formant frequency in the range 1200-4999 Hz.
-
-b6      Cascade branch bandwidth of sixth formant in the range 40-2000 Hz. 
-
-fnz  	Frequency of the nasal zero in the range 248-528 Hz.
-	(cascade branch only) 
-
-bnz   	Bandwidth of the nasal zero in the range 40-1000 Hz 
-	(cascade branch only)
-
-fnp   	Frequency of the nasal pole in the range 248-528 Hz 
-
-bnp   	Bandwidth of the nasal pole in the range 40-1000 Hz 
-
-asp    	Amplitude of aspiration 0-70 dB.
-
-kopen 	Open quotient of voicing waveform, range 0-60, usually 30.
-	Will influence the gravelly or smooth quality of the voice.
-	Only works with impulse and antural simulations. For the
-	sampled glottal excitation waveform the open quotient is fixed.
-
-aturb 	Amplitude of turbulence 0-80 dB. A value of 40 is useful. Can be
-	used to simulate "breathy" voice quality.
-
-tilt  	Spectral tilt in dB, range 0-24. Tilts down the output spectrum.
-	The value refers to dB down at 3Khz. Increasing the value emphasizes
-	the low frequency content of the speech and attenuates the high
-	frequency content.
-
-af    	Amplitude of frication in dB, range 0-80 (parallel branch)
-
-skew  	Spectral Skew - skewness of alternate periods, range 0-40
-
-a1    	Amplitude of first formant in the parallel branch, in 0-80 dB.
-
-b1p  	Bandwidth of the first formant in the parallel branch, in Hz.
-
-a2    	Amplitude of parallel branch second formant.
-
-b2p   	Bandwidth of parallel branch second formant.
-
-a3    	Amplitude of parallel branch third formant.
-
-b3p	Bandwidth of parallel branch third formant.
-
-a4    	Amplitude of parallel branch fourth formant.
-
-b4p   	Bandwidth of parallel branch fourth formant.
-
-a5	Amplitude of parallel branch fifth formant.
-
-b5p   	Bandwidth of parallel branch fifth formant.
-
-a6	Amplitude of parallel branch sixth formant.
-
-b6p   	Bandwidth of parallel branch sixth formant.
-
-anp   	Amplitude of the parallel branch nasal formant.
-
-ab    	Amplitude of bypass frication in dB. 0-80.
-
-avp	Amplitude of voicing for the parallel branch, 0-70 dB.
-
-gain  	Overall gain in dB range 0-80.
+| Parameter | Description |
+|-----------|-------------|
+| f0        | This is the fundamental frequency (pitch) of the utterance in this case it is specified in steps of 0.1 Hz, hence 100Hz will be represented by a value of 1000. |
+| av        | Amplitude of voicing for the cascade branch of the synthesizer in dB0. Range 0-70, value usually 60 for a vowel sound. |
+| f1        | First formant frequency in 200-1300 Hz. |
+| b1        | Cascade branch bandwidth of first formant in the range 40-1000 Hz. |
+| f2        | Second formant frequency in the range 550 - 3000 Hz. |
+| b2        | Cascade branch bandwidth of second  formant in the range 40-1000 Hz. |
+| f3        | Third formant frequency in the range 1200-4999 Hz. |
+| b3        | Cascade branch bandwidth of third formant in the range 40-1000 Hz. |
+| f4        | Fourth formant frequency in 1200-4999 Hz. |
+| b4        | Cascade branch bandwidth of fourth formant in the range 40-1000 Hz. |
+| f5        | Fifth formant frequency in the range 1200-4999 Hz. |
+| b5        | Cascade branch bandwidth of fifth formant in the range 40-1000 Hz. |
+| f6        | Sixth formant frequency in the range 1200-4999 Hz. |
+| b6        | Cascade branch bandwidth of sixth formant in the range 40-2000 Hz. |
+| fnz       | Frequency of the nasal zero in the range 248-528 Hz. (cascade branch only) |
+| bnz       | Bandwidth of the nasal zero in the range 40-1000 Hz. (cascade branch only) |
+| fnp       | Frequency of the nasal pole in the range 248-528 Hz. |
+| bnp       | Bandwidth of the nasal pole in the range 40-1000 Hz. |
+| asp       | Amplitude of aspiration 0-70 dB. |
+| kopen     | Open quotient of voicing waveform, range 0-60, usually 30. Will influence the gravelly or smooth quality of the voice. Only works with impulse and antural simulations. For the sampled glottal excitation waveform the open quotient is fixed. |
+| aturb     | Amplitude of turbulence 0-80 dB. A value of 40 is useful. Can be used to simulate "breathy" voice quality. |
+| tilt      | Spectral tilt in dB, range 0-24. Tilts down the output spectrum. The value refers to dB down at 3Khz. Increasing the value emphasizes the low frequency content of the speech and attenuates the high frequency content. |
+| af        | Amplitude of frication in dB, range 0-80. (parallel branch) |
+| skew      | Spectral Skew - skewness of alternate periods, range 0-40 |
+| a1        | Amplitude of first formant in the parallel branch, in 0-80 dB. |
+| b1p       | Bandwidth of the first formant in the parallel branch, in Hz. |
+| a2        | Amplitude of parallel branch second formant. |
+| b2p       | Bandwidth of parallel branch second formant. |
+| a3        | Amplitude of parallel branch third formant. |
+| b3p       | Bandwidth of parallel branch third formant. |
+| a4        | Amplitude of parallel branch fourth formant. |
+| b4p       | Bandwidth of parallel branch fourth formant. |
+| a5        | Amplitude of parallel branch fifth formant. |
+| b5p       | Bandwidth of parallel branch fifth formant. |
+| a6        | Amplitude of parallel branch sixth formant. |
+| b6p       | Bandwidth of parallel branch sixth formant. |
+| anp       | Amplitude of the parallel branch nasal formant. |
+| ab        | Amplitude of bypass frication in dB. 0-80. |
+| avp       | Amplitude of voicing for the parallel branch, 0-70 dB. |
+| gain      | Overall gain in dB range 0-80. |
 
 ## Command Line Options
 
--h Displays a help message.
-
--i <filename> sets input filename.
-
--o <outfile> sets output filename. 
-   If output filename not specified, stdout is used.
-
--q quiet - print no messages.
-
--t <n> select output waveform (RTFC !)
-
--c select cascade-parallel configuration.
-   Parallel only configuration is default.
-
--n <number> Number of formants in cascade branch.
-   Default is 5.
-
--s <n> set sample rate
-   Default is 10Khz.
-
--f <n> set number of milliseconds per frame.
-   Default is 10ms per frame
-
--v <n> Specifies that the voicing source to be used.
-   1 = impulse train.
-   2 = natural simulation.
-   3 = natural samples.
-   Default is natural voicing
-
--V <filename> Specifies the filename for a sampled natural excitation
-   waveform. See man page for format details.
-
--r <n> Output raw binary samples, rather than ASCII integer samples.
-   1 = high byte, low byte arrangement.
-   2 = low byte, high byte arrangement.
-
--F <percent> percentage of f0 flutter
-   Default is 0
+| Option          | Description |
+|-----------------|-------------|
+| `-h`            | Displays a help message. |
+| `-i <filename>` | Sets input filename. |
+| `-o <outfile>`  | Sets output filename. If output filename not specified, stdout is used. |
+| `-q`            | Quiet - print no messages. |
+| `-t <n>`        | Select output waveform (RTFC !). |
+| `-c`            | Select cascade-parallel configuration. Parallel only configuration is default. |
+| `-n <number>`   | Number of formants in cascade branch. Default is 5. |
+| `-s <n>`        | Set sample rate. Default is 10Khz. |
+| `-f <n>`        | Set number of milliseconds per frame. Default is 10ms per frame. |
+| `-v <n>`        | Specifies that the voicing source to be used. 1 = impulse train. 2 = natural simulation. 3 = natural samples. Default is natural voicing. |
+| `-V <filename>` | Specifies the filename for a sampled natural excitation waveform. See man page for format details. |
+| `-r <n>`        | Output raw binary samples, rather than ASCII integer samples. 1 = high byte, low byte arrangement. 2 = low byte, high byte arrangement. |
+| `-F <percent>`  | Percentage of f0 flutter. Default is 0. |
 
 ## Example Parameter File
 
@@ -236,20 +164,20 @@ Some example parameter files for a short segments of speech are included in
 this distribution. e.g. file called example1.par. Use the following
 to produce the output waveforms:
 
-	klatt -i example1.par -o example1.dat -f 5 -v 2
-	klatt -i example2.par -o example2.dat -f 5 -s 16000 -v 2
+    klatt -i example1.par -o example1.dat -f 5 -v 2
+    klatt -i example2.par -o example2.dat -f 5 -s 16000 -v 2
 
-The '-r' option can be used to produce raw binary output, which can
+The `-r` option can be used to produce raw binary output, which can
 then be converted to many different formats using utilities such as
-'sox' (sound exchange) which are available from major ftp sites.
+`sox` (sound exchange) which are available from major ftp sites.
 
 An example is given below of conversion to the ulaw encoded format
 used by Sun Sparc SLC's
 
-sox -r 16000 -s -w example.raw -r 8000 -b -U example.au
+    sox -r 16000 -s -w example.raw -r 8000 -b -U example.au
 
 Beware of the byte ordering of your machine - if the above procedure
-produces distored rubbish, try using -r 2 instead of -r 1. This just
+produces distored rubbish, try using `-r 2` instead of `-r 1`. This just
 reverses the byte ordering in the raw binary output file. It is also
 worth noting that the above example reduces the quality of the output,
 as the sampling rate is being halved and the number of bits per sample
