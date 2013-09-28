@@ -1,7 +1,7 @@
 #!/bin/sh
 
 mkdir -p m4
-ln -sv README.md README
+ln -svf README.md README
 
 aclocal -I m4 || exit 1
 
