@@ -19,7 +19,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifndef __STDC__
 #include <malloc.h>
+#endif
 #include <string.h>
 #include "parwave.h"
 #include "getopt.h"
